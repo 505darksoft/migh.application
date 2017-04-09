@@ -1,0 +1,10 @@
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\mighDataAccess.dll.config
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\mighDataAccess.dll
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\mighDataAccess.pdb
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\EntityFramework.dll
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\EntityFramework.xml
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\obj\Debug\mighDataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\obj\Debug\mighDataAccess.dll
+C:\Users\Dark\Documents\migh\migh.application\mighDataAccess\obj\Debug\mighDataAccess.pdb
