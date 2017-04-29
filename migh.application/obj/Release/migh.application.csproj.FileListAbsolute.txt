@@ -1,0 +1,37 @@
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\bin\migh.application.dll
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\bin\migh.application.pdb
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\bin\JsonTools.dll
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\bin\migh.api.dll
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\bin\Newtonsoft.Json.dll
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\obj\Release\migh.application.dll
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\obj\Release\migh.application.pdb
+c:\users\edu\documents\visual studio 2012\Projects\migh.application\migh.application\obj\Release\migh.application.csprojResolveAssemblyReference.cache
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\migh.application.dll.config
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\migh.application.dll
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\migh.application.pdb
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\JsonTools.dll
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\migh.api.dll
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\Newtonsoft.Json.dll
+C:\Users\Eduardo\Desktop\migh.application\migh.application\obj\Release\migh.application.csprojResolveAssemblyReference.cache
+C:\Users\Eduardo\Desktop\migh.application\migh.application\obj\Release\migh.application.dll
+C:\Users\Eduardo\Desktop\migh.application\migh.application\obj\Release\migh.application.pdb
+C:\Users\Eduardo\Desktop\migh.application\migh.application\bin\AjaxControlToolkit.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\obj\Release\migh.application.csprojResolveAssemblyReference.cache
+C:\Users\Edu\Desktop\migh.application\migh.application\obj\Release\migh.application.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\bin\migh.application.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\bin\migh.application.pdb
+C:\Users\Edu\Desktop\migh.application\migh.application\bin\AjaxControlToolkit.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\bin\JsonTools.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\bin\migh.api.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\bin\Newtonsoft.Json.dll
+C:\Users\Edu\Desktop\migh.application\migh.application\obj\Release\migh.application.pdb
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\migh.application.dll.config
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\migh.application.dll
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\migh.application.pdb
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\AjaxControlToolkit.dll
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\JsonTools.dll
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\migh.api.dll
+C:\Users\Dark\Documents\migh\migh.application\migh.application\bin\Newtonsoft.Json.dll
+C:\Users\Dark\Documents\migh\migh.application\migh.application\obj\Release\migh.application.csprojResolveAssemblyReference.cache
+C:\Users\Dark\Documents\migh\migh.application\migh.application\obj\Release\migh.application.dll
+C:\Users\Dark\Documents\migh\migh.application\migh.application\obj\Release\migh.application.pdb

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ44ZvafcjEWT11VQd55sAAAAAAACAAAAAAAQZgAAAAEAACAAAADh4MyvFbo94xrWpamP5j7wmz211ZV7mxt/x2D5wXKA1AAAAAAOgAAAAAIAACAAAAAWvdVYu2wGjNNSRKev389Mc5EQ5sWn+QgKMpet58cyYyAAAAC06oX9TxwTz1Q6bF42WdysOaR5YnmRfoP1cZfHO5cTpEAAAADFHhPvlETOpzxBZyLFqKc2+D2AtJXmmZOke7b+LQQti/WL1Q2f97Eum1Be86S0vLfFBDHifgOgDcGQFQVmpExy</EncryptedPassword>
+    <_PublishTargetUrl>ftp://mmusic.somee.com/www.mmusic.somee.com</_PublishTargetUrl>
+  </PropertyGroup>
+</Project>

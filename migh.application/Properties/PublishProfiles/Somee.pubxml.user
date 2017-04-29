@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo es utilizado por el proceso de paquete/publicación de nuestro proyecto Web. Puede personalizar el comportamiento de este proceso
+editando este archivo MSBuild. Para conocer más acerca de esto, visite http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQ44ZvafcjEWT11VQd55sAAAAAAACAAAAAAAQZgAAAAEAACAAAAABg9oVX8i1uOK3V625PmdbgoUg+dFu0CIQIKL9T9BpmQAAAAAOgAAAAAIAACAAAADsVqdmyIKv/F4jkkLCTTwVd9VfC3v6Be9mr3R2YY9chiAAAACXZHUZQaZqpQnS1+W4Uv/KZejm65mZlndxYvWBrAtHLUAAAADnP2MV8d5DZejMLABm43/LuV2uQdAV2l7TLn5qJEL1XUxIAe75SoLLAOYvTq/+rRc4teGgsORcbXBfuUly3OEi</EncryptedPassword>
+    <_PublishTargetUrl>ftp://mmusic.somee.com/www.mmusic.somee.com</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/AjaxControlToolkit.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/JsonTools.dll">
+      <publishTime>07/08/2016 17:01:16</publishTime>
+    </File>
+    <File Include="bin/migh.api.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/migh.application.dll">
+      <publishTime>12/04/2016 02:16:11</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>07/08/2016 17:01:16</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>04/12/2016 02:20:40</publishTime>
+    </File>
+    <File Include="images/ajax-loader.gif">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="images/bg-pic.jpg">
+      <publishTime>12/04/2016 02:10:21</publishTime>
+    </File>
+    <File Include="images/default_album.png">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="images/nextSong.png">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="images/previousSong.png">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/12/2016 02:20:50</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
