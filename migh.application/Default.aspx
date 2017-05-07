@@ -20,6 +20,7 @@
             <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="listArtists" />
                 <asp:AsyncPostBackTrigger ControlID="listAlbums" />
+
             </Triggers> 
             <ContentTemplate>
                 <div class="DivTableFormat" style="width: 100%">
