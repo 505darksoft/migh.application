@@ -18,8 +18,9 @@
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <asp:UpdatePanel ID="UpdatePanel1" ChildrenAsTriggers="true" UpdateMode="Conditional" runat="server">
             <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="listArtists" /> 
+                <asp:AsyncPostBackTrigger ControlID="listArtists" />
                 <asp:AsyncPostBackTrigger ControlID="listAlbums" />
+                <asp:AsyncPostBackTrigger />
             </Triggers> 
             <ContentTemplate>
                 <div class="DivTableFormat" style="width: 100%">
