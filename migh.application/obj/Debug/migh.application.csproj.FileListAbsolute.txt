@@ -49,3 +49,18 @@ C:\Users\Dark\Documents\Visual Studio 2017\Projects\migh.application\migh.applic
 C:\Users\Dark\Documents\Visual Studio 2017\Projects\migh.application\migh.application\obj\Debug\migh.application.csprojResolveAssemblyReference.cache
 C:\Users\Dark\Documents\Visual Studio 2017\Projects\migh.application\migh.application\obj\Debug\migh.application.dll
 C:\Users\Dark\Documents\Visual Studio 2017\Projects\migh.application\migh.application\obj\Debug\migh.application.pdb
+C:\migh.application\migh.application\bin\AjaxControlToolkit.dll
+C:\migh.application\migh.application\bin\migh.application.dll.config
+C:\migh.application\migh.application\bin\migh.application.dll
+C:\migh.application\migh.application\bin\migh.application.pdb
+C:\migh.application\migh.application\bin\JsonTools.dll
+C:\migh.application\migh.application\bin\Newtonsoft.Json.dll
+C:\migh.application\migh.application\bin\System.Net.Http.Formatting.dll
+C:\migh.application\migh.application\bin\System.Web.Http.dll
+C:\migh.application\migh.application\bin\System.Web.Http.WebHost.dll
+C:\migh.application\migh.application\bin\Newtonsoft.Json.xml
+C:\migh.application\migh.application\bin\System.Net.Http.Formatting.xml
+C:\migh.application\migh.application\bin\System.Web.Http.xml
+C:\migh.application\migh.application\bin\System.Web.Http.WebHost.xml
+C:\migh.application\migh.application\obj\Debug\migh.application.dll
+C:\migh.application\migh.application\obj\Debug\migh.application.pdb

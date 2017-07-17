@@ -76,21 +76,21 @@ namespace migh.application {
         protected global::AjaxControlToolkit.UpdatePanelAnimationExtender UpdatePanelAnimationExtender1;
         
         /// <summary>
-        /// Control btnPreviousSong.
+        /// Control ImageButton1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnPreviousSong;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
         
         /// <summary>
-        /// Control btnNextSong.
+        /// Control ImageButton2.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton btnNextSong;
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton2;
     }
 }
