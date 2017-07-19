@@ -89,7 +89,7 @@ namespace migh.application
             int t = Session.Timeout;
             try
             {
-                if(Session["user"] == null || lib.artist_list.Count == 0)
+                if (Session["user"] == null || lib.artist_list.Count == 0)
                 {
                     string su = "ftp://ftp.drivehq.com/migh.lib";
                     string u = "505darksoft";
@@ -429,7 +429,6 @@ namespace migh.application
         {
             if (listSongs.SelectedIndex > 0)
             {
-                string title = "";
                 List<Song> songs = new List<Song>();
                 int index = listSongs.SelectedIndex -1;
                 for (int i = 1; i < listSongs.Items.Count; i++)
@@ -439,8 +438,6 @@ namespace migh.application
                     {
                         if (song.id == Convert.ToInt32(item.Value))
                         {
-                            Artist a = Artist.get(lib.artist_list, song.artist_id);
-                            title = song.name + " - " + a.name;
                             songs.Add(song);
                             break;
                         }
@@ -449,7 +446,7 @@ namespace migh.application
                 Session.Add("currentList", songs);
                 Session.Add("currentSongIndex", index);
                 Session.Add("selectedSong", Convert.ToInt32(listSongs.SelectedValue));
-                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong('" + title + "')", true);
+                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong()", true);
             }
         }
         #endregion

@@ -87,6 +87,23 @@
     <Content Include="images\default_album.png" />
     <Content Include="images\nextSong.png" />
     <Content Include="images\previousSong.png" />
+    <Content Include="js\demo\index.html" />
+    <Content Include="js\demo\main.css" />
+    <Content Include="js\demo\main.js" />
+    <Content Include="js\jquery.fracs-0.15.0.js" />
+    <Content Include="js\jquery.fracs-0.15.0.min.js" />
+    <Content Include="js\jquery.outline-0.15.0.js" />
+    <Content Include="js\jquery.outline-0.15.0.min.js" />
+    <Content Include="js\lib\jquery-1.11.1.min.js" />
+    <Content Include="js\lib\jquery.colors-1.6.0.min.js" />
+    <Content Include="js\lib\modernizr-2.8.3.min.js" />
+    <Content Include="js\lib\modplug-1.4.1.js" />
+    <Content Include="js\lib\normalize-3.0.1.css" />
+    <Content Include="js\lib\qunit-1.15.0.css" />
+    <Content Include="js\lib\qunit-1.15.0.js" />
+    <Content Include="js\test\index.html" />
+    <Content Include="js\test\main.css" />
+    <Content Include="js\test\main.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
