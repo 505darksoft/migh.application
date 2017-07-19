@@ -379,6 +379,9 @@ namespace migh.application
                 listSongs.Items.Clear();
                 listSongs.Items.Add("(Canción)");
                 Album album = Album.get(lib.album_list, Convert.ToInt32(listAlbums.SelectedValue));
+                List<string> tracks = new List<string>();
+                List<int> ids = new List<int>();
+                int tracki = 1;
                 if (album != null)
                 {
                     foreach (Song song in lib.song_list)
@@ -388,25 +391,36 @@ namespace migh.application
                             ListItem item = new ListItem();
                             item.Text = song.name;
                             item.Value = song.id.ToString();
+                            tracks.Add(song.name);
+                            ids.Add(song.id);
                             if(!listSongs.Items.Contains(item))
                             {
                                 listSongs.Items.Add(item);
                             }
+                            tracki++;
                         }
                     }
                     listSongs.SelectedIndex = 0;
+                    var tracklist = Newtonsoft.Json.JsonConvert.SerializeObject(tracks.ToArray<string>());
+                    var idlist = Newtonsoft.Json.JsonConvert.SerializeObject(ids.ToArray<int>());
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "playTrack(" + tracklist + "," + idlist +")", true);
                 }
             }
             else
             {
+                Album album = Album.get(lib.album_list, Convert.ToInt32(listAlbums.SelectedValue));
+                Artist artist = Artist.get(lib.artist_list, album.artist_id);
                 listSongs.Items.Clear();
                 listSongs.Items.Add("(Canción)");
                 foreach (Song song in lib.song_list)
                 {
-                    ListItem item = new ListItem();
-                    item.Text = song.name;
-                    item.Value = song.id.ToString();
-                    listSongs.Items.Add(item);
+                    if (song.artist_id == artist.id)
+                    {
+                        ListItem item = new ListItem();
+                        item.Text = song.name;
+                        item.Value = song.id.ToString();
+                        listSongs.Items.Add(item);
+                    }
                 }
             }
         }
@@ -415,6 +429,7 @@ namespace migh.application
         {
             if (listSongs.SelectedIndex > 0)
             {
+                string title = "";
                 List<Song> songs = new List<Song>();
                 int index = listSongs.SelectedIndex -1;
                 for (int i = 1; i < listSongs.Items.Count; i++)
@@ -424,6 +439,8 @@ namespace migh.application
                     {
                         if (song.id == Convert.ToInt32(item.Value))
                         {
+                            Artist a = Artist.get(lib.artist_list, song.artist_id);
+                            title = song.name + " - " + a.name;
                             songs.Add(song);
                             break;
                         }
@@ -432,7 +449,7 @@ namespace migh.application
                 Session.Add("currentList", songs);
                 Session.Add("currentSongIndex", index);
                 Session.Add("selectedSong", Convert.ToInt32(listSongs.SelectedValue));
-                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong()", true);
+                ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong('" + title + "')", true);
             }
         }
         #endregion
