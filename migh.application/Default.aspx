@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="migh.application.Default" %>
+﻿<%@ Page Language="C#" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="migh.application.Default" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -7,11 +7,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
+        ::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #404040;
+        } 
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.7);
+        } 
+        ::-webkit-scrollbar-button {
+            background-color: #181818;
+        } 
+        ::-webkit-scrollbar-corner {
+            background-color: black;
+        } 
         #footer {
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
+        }
+        ul.images {
+            margin: auto;
+            padding: 5px;
+            white-space: nowrap;
+            overflow-x: auto;
+            background-color: #282828;
+        }
+        ul.images li {
+            display: inline;
+            width: 70px;
+            height: 70px;
         }
         ol {
             background: #282828;
@@ -25,7 +53,7 @@
             border-radius:2px;
             color:#FBFBFB;
             font-family:Verdana;
-            font-size:11px;
+            font-size:12px;
             background-clip:padding-box;
             height:40px;
             line-height:40px;
@@ -39,63 +67,12 @@
     <title>ghost</title>
 </head>
    
-<body style="width: auto; background-color: #121212; background-repeat:repeat; background-image:url(images/bg-pic.jpg); background-attachment:fixed; background-size: 400px 400px;">
+<body style="width: auto; background-color: #121212; background-repeat:repeat; background-image:url(images/bg-pic.jpg); background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div class="panel panel-primary" style="opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:62px">
+    <div id="maindiv" class="panel panel-primary" style="opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:62px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
-        <asp:UpdatePanel ID="UpdatePanel1" ChildrenAsTriggers="true" UpdateMode="Conditional" runat="server">
-            <Triggers>
-                <asp:AsyncPostBackTrigger ControlID="listArtists" />
-                <asp:AsyncPostBackTrigger ControlID="listAlbums" />
-
-            </Triggers> 
-            <ContentTemplate>
-                <div id="combos" class="DivTableFormat" style="width: 100%">
-                    <table style="text-align:center; width:100%">
-                        <tr style="width:100%; height:40px">
-                            <td style="width:32px; text-align:left; vertical-align:middle">
-                                <img style="height:24px; width:24px" src="images/artist.png" />
-                            </td>
-                            <td style="width:100%; height:40px">
-                                <asp:DropDownList ID="listArtists" style="color:#FBFBFB; background-color:#181818; border:none; width:100%; height:100%; font-family:Verdana" runat="server" OnSelectedIndexChanged="listArtists_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                            </td>
-                        </tr>
-                    </table>
-                    <table style="text-align:center; width:100%">
-                        <tr style="width:100%; height:40px">
-                            <td style="width:32px; text-align:left; vertical-align:middle">
-                                <img style="height:24px; width:24px" src="images/album.png" />
-                            </td>
-                            <td style="width:100%; height:40px">
-                                <asp:DropDownList ID="listAlbums" style="color:#FBFBFB; background-color:#181818; border:none; width:100%; height:100%; font-family:Verdana" runat="server" OnSelectedIndexChanged="listAlbums_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
-                            </td>
-                        </tr>
-                    </table>
-                    <table style="text-align:center; width:100%">
-                        <tr style="width:100%; height:40px">
-                            <td style="width:32px; text-align:left; vertical-align:middle">
-                                <img style="height:24px; width:24px" src="images/track.png" />
-                            </td>
-                            <td style="width:100%; height:40px">
-                                <asp:DropDownList ID="listSongs" style="color:#FBFBFB; background-color:#181818; border:none; width:100%; height:100%; font-family:Verdana" runat="server" AutoPostBack="true" OnSelectedIndexChanged="listSongs_SelectedIndexChanged"></asp:DropDownList>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-        <ajaxToolkit:UpdatePanelAnimationExtender ID="UpdatePanelAnimationExtender1" runat="server" TargetControlID="UpdatePanel1">
-            <Animations>
-                <OnUpdating>
-                    <FadeOut duration="1.0" Fps="30" minimumOpacity="0.2" />
-                </OnUpdating>
-                <OnUpdated>
-                    <FadeIn duration="1.0" Fps="30" minimumOpacity="0.2" />
-                </OnUpdated>
-            </Animations>
-        </ajaxToolkit:UpdatePanelAnimationExtender>
-        
+        <div id="hide" style="display:none"></div>
         <table style="text-align:center; width:100%">
             <tr style="width:100%">
                 <%--<td style="text-align:left">
@@ -119,9 +96,77 @@
                 </td>
             </tr>--%>
         </table>
-
+        <asp:UpdatePanel ID="UpdatePanel2" ChildrenAsTriggers="true" UpdateMode="Conditional" runat="server">
+            <ContentTemplate>
+                <table style="text-align:center; width:100%">
+                    <tr style="width:100%; height:40px">
+                        <td style="width:32px; text-align:left; vertical-align:middle">
+                            <img style="height:24px; width:24px" src="images/artist.png" />
+                        </td>
+                        <td style="width:100%; height:40px">
+                            <asp:DropDownList ID="listArtists" style="color:#FBFBFB; background-color:#181818; border:none; width:100%; height:100%; font-family:Verdana" runat="server" OnSelectedIndexChanged="listArtists_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                        </td>
+                    </tr>
+                </table>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <div id="coverdiv" class="panel panel-primary" style="text-align:center; opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+            <table id="tableImg" style="text-align: center; width:100%"">
+                <tr>
+                    <td>
+                        <ul id="albumlist" class="images" style="background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <asp:UpdatePanel ID="UpdatePanel1" ChildrenAsTriggers="true" UpdateMode="Conditional" runat="server">
+            <Triggers>
+                
+                <asp:AsyncPostBackTrigger ControlID="listAlbums" />
+                <asp:AsyncPostBackTrigger ControlID="listSongs" />
+            </Triggers> 
+            <ContentTemplate>
+                <div id="combos" class="DivTableFormat" style="width: 100%">
+                    
+                    <table style="text-align:center; width:100%; display:none">
+                        <tr style="width:100%; height:40px">
+                            <td style="width:32px; text-align:left; vertical-align:middle">
+                                <img style="height:24px; width:24px" src="images/album.png" />
+                            </td>
+                            <td style="width:100%; height:40px">
+                                <asp:DropDownList ID="listAlbums" style="color:#FBFBFB; background-color:#181818; border:none; width:100%; height:100%; font-family:Verdana" runat="server" OnSelectedIndexChanged="listAlbums_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                            </td>
+                        </tr>
+                    </table>
+                    <table style="text-align:center; width:100%; display:none">
+                        <tr style="width:100%; height:40px">
+                            <td style="width:32px; text-align:left; vertical-align:middle">
+                                <img style="height:24px; width:24px" src="images/track.png" />
+                            </td>
+                            <td style="width:100%; height:40px">
+                                <asp:DropDownList ID="listSongs" style="color:#FBFBFB; background-color:#181818; border:none; width:100%; height:100%; font-family:Verdana" runat="server" AutoPostBack="true" OnSelectedIndexChanged="listSongs_SelectedIndexChanged"></asp:DropDownList>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div ></div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <ajaxToolkit:UpdatePanelAnimationExtender ID="UpdatePanelAnimationExtender1" runat="server" TargetControlID="UpdatePanel1">
+            <Animations>
+                <OnUpdating>
+                    <FadeOut duration="1.0" Fps="30" minimumOpacity="0.2" />
+                </OnUpdating>
+                <OnUpdated>
+                    <FadeIn duration="1.0" Fps="30" minimumOpacity="0.2" />
+                </OnUpdated>
+            </Animations>
+        </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
-    <div class="panel panel-primary" style="opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+    
+    <div id="tracksdiv" class="panel panel-primary" style="opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
         <table style="width:100%;">
             <tr>
                 <td style="text-align:left">
@@ -132,7 +177,8 @@
             </tr>
         </table>
     </div>
-    <div style="height:60px; background-color:transparent"></div>
+    
+    <div style="height:60px; background-color:transparent"> </div>
     <div id="footer" style="background-color: #282828">
         <table style="width:100%;">
             <tr>
@@ -163,6 +209,9 @@
                     <br />
                     <label id="lblSongAlbum" style="font-family:Verdana; font-size:11px; color:#FBFBFB">Álbum</label>
                 </td>
+                <td style="text-align: left; width:65px; vertical-align:middle">
+                    <img id="goTop" alt="imgSongCover" style="height:32px; display:none; width:32px" src="images/uparrow.png" />
+                </td>
             </tr>
         </table>
     </div>
@@ -188,46 +237,136 @@
 
             var Utils = new Utils();
             window.addEventListener('scroll', function () {
-                var isElementInView = Utils.isElementInView($('#combos'), false);
-                //var fracs = document.getElementById('imgSongCover').fracs();
-                //alert(fracs);
-                if (isElementInView) {
-                    document.getElementById('imgSongCoverTop').style.display = 'none';
-                    document.getElementById('tdImg').style.display = 'none';
-                    var td = document.getElementById('tdTag');
-                    td.style.textAlign = 'center';
-                } else {
+                var isElementInView = Utils.isElementInView($('#hide'), false);
+                var off = dw_getScrollOffsets();
+                if (parseInt(off.y) > 100) {
                     document.getElementById('imgSongCoverTop').style.display = 'inline';
+                    document.getElementById('goTop').style.display = 'inline';
                     document.getElementById('tdImg').style.display = 'inline';
                     var td = document.getElementById('tdTag');
                     td.style.textAlign = 'left';
+                } else {
+                    document.getElementById('imgSongCoverTop').style.display = 'none';
+                    document.getElementById('goTop').style.display = 'none';
+                    document.getElementById('tdImg').style.display = 'none';
+                    var td = document.getElementById('tdTag');
+                    td.style.textAlign = 'center';
                 }
-            }, true)
-            //document.head = document.head || document.getElementsByTagName('head')[0];
+                if (document.body.scrollTop === 0) {
+                    $("#coverdiv").show(200);
+                    //document.getElementById('coverdiv').style.display = 'block';
+                } else {
+                    $("#coverdiv").hide(200);
+                    //document.getElementById('coverdiv').style.display = 'none';
+                }
 
-            //function changeFavicon(src) {
-            //    var link = document.createElement('link'),
-            //        oldLink = document.getElementById('dynamic-favicon');
-            //    link.id = 'dynamic-favicon';
-            //    link.rel = 'shortcut icon';
-            //    link.href = src;
-            //    if (oldLink) {
-            //        document.head.removeChild(oldLink);
-            //    }
-            //    document.head.appendChild(link);
-            //}
+                //if (isElementInView) {
+                //    document.getElementById('imgSongCoverTop').style.display = 'none';
+                //    document.getElementById('tdImg').style.display = 'none';
+                //    var td = document.getElementById('tdTag');
+                //    td.style.textAlign = 'center';
+                //} else {
+                //    document.getElementById('imgSongCoverTop').style.display = 'inline';
+                //    document.getElementById('tdImg').style.display = 'inline';
+                //    var td = document.getElementById('tdTag');
+                //    td.style.textAlign = 'left';
+                //}
+            }, true)
+            //fillcovers
+            window.onresize = function (event) {
+                var width = document.getElementById('maindiv').offsetWidth;
+                $("#albumlist").css({
+                    "maxWidth": width - 15
+                });
+            };
+
+            function fillCovers(srcs) {
+                document.getElementById('albumlist').innerHTML = "<a />";
+                var ul = document.getElementById('albumlist');
+                var width = document.getElementById('maindiv').offsetWidth;
+
+                for (i = 0; i < srcs.length; i++) {
+                    var li = document.createElement('li');
+
+                    var img = document.createElement('img');
+                    img.id = i;
+                    var a = document.createElement('a');
+                    a.href = '#' + i;
+                    img.src = srcs[i];
+                    img.style.display = 'inline';
+                    img.width = '100';
+                    img.height = '100';
+                    img.style.padding = '5px';
+                    a.appendChild(img);
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                }
+                var width = document.getElementById('maindiv').offsetWidth;
+                $("#albumlist").css({
+                    "maxWidth": width - 15
+                });
+            }
+            //
             function getEventTarget(e) {
                 e = e || window.event;
                 return e.target || e.srcElement;
             }
-
+            //click tracklist
+            var goTop = document.getElementById('goTop');
+            goTop.onclick = function (event) {
+                window.scrollTo(0, 0);
+            };
             var ul = document.getElementById('tracklist');
             ul.onclick = function (event) {
                 var target = getEventTarget(event);
-
+                var off = dw_getScrollOffsets();
+                localStorage.setItem("offSet", off.y);
+                unfade(target);
                 document.getElementById('listSongs').selectedIndex = $(target).index() + 1;
                 __doPostBack('<%= listSongs.UniqueID %>', '');
             };
+            //
+            //get scroll dis
+            function dw_getScrollOffsets() {
+                var doc = document, w = window;
+                var x, y, docEl;
+
+                if (typeof w.pageYOffset === 'number') {
+                    x = w.pageXOffset;
+                    y = w.pageYOffset;
+                } else {
+                    docEl = (doc.compatMode && doc.compatMode === 'CSS1Compat') ?
+                            doc.documentElement : doc.body;
+                    x = docEl.scrollLeft;
+                    y = docEl.scrollTop;
+                }
+                return { x: x, y: y };
+            }
+
+            //
+            //click albumlist
+            var ulartist = document.getElementById('albumlist');
+            ulartist.onclick = function (event) {
+                var off = dw_getScrollOffsets();
+                localStorage.setItem("offSet", off.y);
+                document.getElementById('tracklist').innerHTML = '';
+
+                var target = getEventTarget(event);
+                var id = parseInt(target.getAttribute('id'));
+
+                document.getElementById('listAlbums').selectedIndex = id + 1;
+                __doPostBack('<%= listAlbums.UniqueID %>', '');
+                var offSet = localStorage.getItem("offSet");
+
+                window.scrollTo(0, offSet);
+            };
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            prm.add_endRequest(function (s, e) {
+                var offSet = localStorage.getItem("offSet");
+                window.scrollTo(0, offSet);
+
+            });
+            //
             function playTrack(tracklist, idlist) {
                 document.getElementById('tracklist').innerHTML = "";
                 var ol = document.getElementById('tracklist');
@@ -239,12 +378,12 @@
                     ol.appendChild(li);
                 }
             }
-            window.onbeforeunload = function () {
-                if (confirm('are you sure to exit?'))
-                    return true;
-                else
-                    return false;
-            };
+            //window.onbeforeunload = function () {
+            //    if (confirm('are you sure to exit?'))
+            //        return true;
+            //    else
+            //        return false;
+            //};
             $(document).ready(function () {
                 $('a').each(function () {
                     $(this).data('href', $(this).attr('href')).hide();
@@ -272,16 +411,6 @@
             function PlaySong(title) {
                 var title = '';
                 setInterval(resetTimeout, 300000);
-                PageMethods.getCurrentSongTitle(stitle);
-                function stitle(str) {
-                    title = title + str;
-                    document.title = str;
-                    PageMethods.getCurrentSongArtist(sartist);
-                    function sartist(str) {
-                        title = title + ' - ' + str;
-                        document.title = title;
-                    }
-                }
                 PageMethods.getSongURL(OnSucceeded, OnFailed);
             }
             var aud = document.getElementById("audio");
@@ -340,17 +469,22 @@
                 }
             }
             function setTitle(response) {
+                localStorage.removeItem("title");
                 var lbl = document.getElementById('lblSongTitle');
+                document.title = '';
+                document.title = response;
                 lbl.innerText = response;
                 unfade(lbl);
             }
             function setArtist(response) {
                 var lbl = document.getElementById('lblSongArtist');
+                document.title = document.title + " - " + response;
                 lbl.innerText = response;
                 unfade(lbl);
             }
             function setAlbum(response) {
                 var lbl = document.getElementById('lblSongAlbum');
+                
                 lbl.innerText = response;
                 unfade(lbl);
             }

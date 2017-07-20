@@ -321,10 +321,12 @@ namespace migh.application
                 Artist artist = Artist.get(lib.artist_list, Convert.ToInt32(listArtists.SelectedValue));
                 if(artist != null)
                 {
+                    List<string> albumimg = new List<string>();
                     foreach(Album album in lib.album_list)
                     {
                         if(album.artist_id == artist.id)
                         {
+                            albumimg.Add(string.Format(lib.configuration.AlbumCoverImageFileURLFormat, artist.url_name, album.url_name));
                             ListItem item = new ListItem();
                             item.Text = album.name;
                             item.Value = album.id.ToString();
@@ -346,6 +348,8 @@ namespace migh.application
                     }
                     listAlbums.SelectedIndex = 0;
                     listSongs.SelectedIndex = 0;
+                    var acovers = Newtonsoft.Json.JsonConvert.SerializeObject(albumimg.ToArray<string>());
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + ")", true);
                 }
             }
             else
@@ -408,20 +412,25 @@ namespace migh.application
             }
             else
             {
-                Album album = Album.get(lib.album_list, Convert.ToInt32(listAlbums.SelectedValue));
-                Artist artist = Artist.get(lib.artist_list, album.artist_id);
-                listSongs.Items.Clear();
-                listSongs.Items.Add("(Canción)");
-                foreach (Song song in lib.song_list)
+                try
                 {
-                    if (song.artist_id == artist.id)
+                    Album album = Album.get(lib.album_list, Convert.ToInt32(listAlbums.SelectedValue));
+                    Artist artist = Artist.get(lib.artist_list, album.artist_id);
+                    listSongs.Items.Clear();
+                    listSongs.Items.Add("(Canción)");
+                    foreach (Song song in lib.song_list)
                     {
-                        ListItem item = new ListItem();
-                        item.Text = song.name;
-                        item.Value = song.id.ToString();
-                        listSongs.Items.Add(item);
+                        if (song.artist_id == artist.id)
+                        {
+                            ListItem item = new ListItem();
+                            item.Text = song.name;
+                            item.Value = song.id.ToString();
+                            listSongs.Items.Add(item);
+                        }
                     }
                 }
+                catch { }
+                
             }
         }
 
