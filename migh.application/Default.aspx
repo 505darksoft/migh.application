@@ -8,7 +8,7 @@
 <head runat="server">
     <style>
         #seekbar {
-            height: 5px;
+            height: 4px;
             background-color: black;
             width: 100%; 
             vertical-align: top
@@ -210,10 +210,10 @@
         </div>
     </div>
     
-    <div style="height:60px; background-color:transparent"> </div>
+    <div style="height:80px; background-color:transparent"> </div>
         
     <div id="footer" style="background-color: #282828">
-        <div style="height: 8px">
+        <div style="height: 7px">
             <progress id="seekbar" value="0" max="1"></progress>
         </div>
         <div>
