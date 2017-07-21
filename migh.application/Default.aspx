@@ -8,11 +8,13 @@
 <head runat="server">
     <style>
         #seekbar {
-            height: 10px;
-            background-color: white;
+            height: 5px;
+            background-color: black;
+            width: 100%; 
+            vertical-align: top
         }
         progress[value]::-webkit-progress-value {
-            background-color: black;
+            background-color: white;
         }
         label.light {
             font-family: 'Palanquin';
@@ -99,7 +101,7 @@
 <body style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:75px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:62px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
         <table id="coverTab" style="text-align:center; width:100%">
@@ -211,29 +213,30 @@
     <div style="height:60px; background-color:transparent"> </div>
         
     <div id="footer" style="background-color: #282828">
-        <table style="width:100%;">
-            <tr>
-                <td style="text-align:left">
-                    <asp:ImageButton ID="ImageButton1" runat="server" style="font-family:Calibri;" onclientclick="TriggerPreviousSong(); return false;" ImageUrl="~/images/previousSong3.png"/>
-                </td>
-                <td style="text-align:right">
-                    <asp:ImageButton ID="ImageButton2" runat="server" style="font-family:Calibri;" onclientclick="TriggerNextSong(); return false;" ImageUrl="~/images/nextSong3.png"/>
-                </td>
-                <td style="width:100%">
-                    <audio id="audio" controls="controls" controlslist="nodownload" autoplay="autoplay" style="width:100%">
-                    </audio>
-                </td>
-                
-            </tr>
-        </table>
+        <div style="height: 8px">
+            <progress id="seekbar" value="0" max="1"></progress>
+        </div>
+        <div>
+            <audio id="audio" autoplay></audio>  
+        </div>
+        <div style="text-align: center; height: 100%; margin-top:4px">
+            <img id="previous" src="images/previous.png" style="width: 25px; height: 25px; margin-bottom: 12px; margin-right: 15px"/>
+            <img id="play" src="images/play.png" style="width: 45px; height: 45px; margin-bottom:2px"/>
+            <img id="next" src="images/next.png" style="width: 25px; height: 25px;; margin-bottom: 12px; margin-left: 15px"/>
+            <div style="float: right; margin-top: 10px; display: inline-block; position: absolute; right: 0">
+                <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
+                <span style="color: #FBFBFB; font-family; font-size">/</span>
+                <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
+            </div>
+        </div>
     </div>
-    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 75px;">
+    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 62px;">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
-                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:75px; display:none; width:75px" src="images/default_album.png" />
+                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:61px; display:none; width:61px" src="images/default_album.png" />
                 </td>
-                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:75px">
+                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:62px">
                     <label id="lblSongTitle" style="font-family:Verdana; font-size:12px; color:#FBFBFB">Título</label>
                     <br />
                     <label id="lblSongArtist" style="font-family:Verdana; font-size:12px; color:#97A09B">Artista</label>
@@ -322,8 +325,8 @@
                     img.id = i;
                     img.src = srcs[i];
                     img.style.display = 'inline';
-                    img.width = '75';
-                    img.height = '75';
+                    img.width = '90';
+                    img.height = '90';
                     img.style.padding = '5px';
                     li.appendChild(a);
                     a.appendChild(img);
@@ -528,6 +531,49 @@
             function OnFailed(error) {
                 alert('Error');
             }
+            //newplayer
+            var audio = document.getElementById('audio');
+            var play = document.getElementById('play');
+            $('#next').on('click', function () {
+                var btn = document.getElementById('next');
+                unfade(btn);
+                TriggerNextSong();
+            });
+            $('#previous').on('click', function () {
+                var btn = document.getElementById('previous');
+                unfade(btn);
+                TriggerPreviousSong();
+            });
+            $('#play').on('click', function () {
+                var btn = document.getElementById('play');
+                unfade(btn);
+                if (audio.paused) {
+                    audio.play();
+                    play.setAttribute('src', 'images/pause.png');
+                } else {
+                    audio.pause();
+                    play.setAttribute('src', 'images/play.png');
+                }
+            });
+            $('#audio').on('timeupdate', function () {
+                if (audio.paused) {
+                    play.setAttribute('src', 'images/play.png');
+                } else {
+                    play.setAttribute('src', 'images/pause.png');
+                }
+                $('#seekbar').attr("value", this.currentTime / this.duration);
+                var date = new Date(null);
+                date.setSeconds(this.currentTime); // specify value for SECONDS here
+
+                var currentTime = date.toISOString().substr(14, 5);
+                var date2 = new Date(null);
+                date.setSeconds(this.duration); // specify value for SECONDS here
+                var duration = date.toISOString().substr(14, 5);
+                document.getElementById('currentTime').innerHTML = currentTime;
+                document.getElementById('duration').innerHTML = duration;
+
+
+            });
     </script>
     </form>
 </body>
