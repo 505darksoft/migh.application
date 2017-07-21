@@ -7,27 +7,56 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
-        ::-webkit-scrollbar {
+        #seekbar {
+            height: 10px;
+            background-color: white;
+        }
+        progress[value]::-webkit-progress-value {
+            background-color: black;
+        }
+        label.light {
+            font-family: 'Palanquin';
+            vertical-align: middle;
+            padding: 3px;
+            font-size:12px;
+            width: 100%;
+            color:#FBFBFB;
+        }
+        label.dark {
+            font-family: 'Palanquin';
+            padding: 3px;
+            font-size:12px;
+            width: 100%;
+            color:#97A09B;
+        }
+        ::::-webkit-scrollbar {
             width: 15px;
         }
 
         ::-webkit-scrollbar-track {
-            background-color: #404040;
-        } 
-        ::-webkit-scrollbar-thumb {
-            background-color: rgba(0, 0, 0, 0.7);
-        } 
-        ::-webkit-scrollbar-button {
             background-color: #181818;
         } 
-        ::-webkit-scrollbar-corner {
+        ::-webkit-scrollbar-thumb {
+            background-color: #404040;
+        } 
+        ::-webkit-scrollbar-button {
             background-color: black;
+        } 
+        ::-webkit-scrollbar-corner {
+            background-color: #181818;
         } 
         #footer {
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
+        }
+        label {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 30px;
+            white-space: nowrap;
+            vertical-align: middle;
         }
         ul.images {
             margin: auto;
@@ -43,13 +72,13 @@
         }
         ol {
             background: #282828;
-            padding-left:20px;
-            padding-right:15px;
+            padding-right: 2px;
+            padding-left: 0px;
         }
 
         ol li {
             background: #181818;
-            margin: 8px;
+            margin: 5px;
             border-radius:2px;
             color:#FBFBFB;
             font-family:Verdana;
@@ -61,25 +90,25 @@
         }
     </style>
     <script type="text/javascript" src="js/jquery.fracs-0.15.0.js"></script>
-    <link rel="shortcut icon" type="image/png" href="images/music-player.png"/>
+    <link rel="shortcut icon" type="image/png" href="images/music-player.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <meta http-equiv="Content-Type" name="viewport" content="initial-scale=1, user-scalable=no"/>
     <title>ghost</title>
 </head>
    
-<body style="width: auto; background-color: #121212; background-repeat:repeat; background-image:url(images/bg-pic.jpg); background-attachment:fixed; background-size: 400px 400px">
+<body style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:62px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:75px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
-        <table style="text-align:center; width:100%">
+        <table id="coverTab" style="text-align:center; width:100%">
             <tr style="width:100%">
                 <%--<td style="text-align:left">
                     <asp:ImageButton ID="btnPreviousSong" runat="server" style="font-family:Calibri;" onclientclick="TriggerPreviousSong(); return false;" ImageUrl="~/images/previousSong.png"/>
                 </td>--%>
                 <td style="text-align: center; width:50%">
-                    <img id="imgSongCover" alt="imgSongCover" style="height:200px; width:200px" src="images/default_album.png" />
+                    <img id="imgSongCover" alt="imgSongCover" style="height:250px; width:250px" src="images/default_album.png" />
                 </td>
                 
                 <%--<td style="text-align:right">
@@ -110,7 +139,7 @@
                 </table>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <div id="coverdiv" class="panel panel-primary" style="text-align:center; opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+        <div id="coverdiv" class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
             <table id="tableImg" style="text-align: center; width:100%"">
                 <tr>
                     <td>
@@ -165,20 +194,22 @@
             </Animations>
         </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
-    
-    <div id="tracksdiv" class="panel panel-primary" style="opacity:0.9; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
-        <table style="width:100%;">
-            <tr>
-                <td style="text-align:left">
-                    <ol id="tracklist">
+    <div id="parentTrackDiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+        <div id="tracksdiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+            <table style="width:100%;">
+                <tr>
+                    <td style="text-align:left">
+                        <ol id="tracklist">
                         
-                    </ol>
-                </td>
-            </tr>
-        </table>
+                        </ol>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
     
     <div style="height:60px; background-color:transparent"> </div>
+        
     <div id="footer" style="background-color: #282828">
         <table style="width:100%;">
             <tr>
@@ -196,18 +227,18 @@
             </tr>
         </table>
     </div>
-    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 61px;">
+    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 75px;">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
-                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:56px; display:none; width:56px" src="images/default_album.png" />
+                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:75px; display:none; width:75px" src="images/default_album.png" />
                 </td>
-                <td id="tdTag" style="text-align:center; width:100%">
-                    <label id="lblSongTitle" style="font-family:Verdana; font-size:11px; color:#FBFBFB">Título</label>
+                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:75px">
+                    <label id="lblSongTitle" style="font-family:Verdana; font-size:12px; color:#FBFBFB">Título</label>
                     <br />
-                    <label id="lblSongArtist" style="font-family:Verdana; font-size:11px; color:#97A09B">Artista</label>
+                    <label id="lblSongArtist" style="font-family:Verdana; font-size:12px; color:#97A09B">Artista</label>
                     <br />
-                    <label id="lblSongAlbum" style="font-family:Verdana; font-size:11px; color:#FBFBFB">Álbum</label>
+                    <label id="lblSongAlbum" style="font-family:Verdana; font-size:12px; color:#FBFBFB">Álbum</label>
                 </td>
                 <td style="text-align: left; width:65px; vertical-align:middle">
                     <img id="goTop" alt="imgSongCover" style="height:32px; display:none; width:32px" src="images/uparrow.png" />
@@ -239,27 +270,27 @@
             window.addEventListener('scroll', function () {
                 var isElementInView = Utils.isElementInView($('#hide'), false);
                 var off = dw_getScrollOffsets();
-                if (parseInt(off.y) > 100) {
+                if (parseInt(off.y) > 170) {
                     document.getElementById('imgSongCoverTop').style.display = 'inline';
-                    document.getElementById('goTop').style.display = 'inline';
+                    //document.getElementById('goTop').style.display = 'inline';
                     document.getElementById('tdImg').style.display = 'inline';
-                    var td = document.getElementById('tdTag');
-                    td.style.textAlign = 'left';
+                    var td = document.getElementById('tdTag').style.textAlign = "left";
+                    td.style.textAlign = "left";
+                    //$("#coverdiv").slideUp();
                 } else {
                     document.getElementById('imgSongCoverTop').style.display = 'none';
-                    document.getElementById('goTop').style.display = 'none';
+                    //document.getElementById('goTop').style.display = 'none';
                     document.getElementById('tdImg').style.display = 'none';
                     var td = document.getElementById('tdTag');
                     td.style.textAlign = 'center';
                 }
                 if (document.body.scrollTop === 0) {
-                    $("#coverdiv").show(200);
+                    //$("#coverdiv").slideDown();
                     //document.getElementById('coverdiv').style.display = 'block';
                 } else {
-                    $("#coverdiv").hide(200);
+                    //$("#coverdiv").slideUp();
                     //document.getElementById('coverdiv').style.display = 'none';
                 }
-
                 //if (isElementInView) {
                 //    document.getElementById('imgSongCoverTop').style.display = 'none';
                 //    document.getElementById('tdImg').style.display = 'none';
@@ -284,21 +315,18 @@
                 document.getElementById('albumlist').innerHTML = "<a />";
                 var ul = document.getElementById('albumlist');
                 var width = document.getElementById('maindiv').offsetWidth;
-
                 for (i = 0; i < srcs.length; i++) {
                     var li = document.createElement('li');
-
                     var img = document.createElement('img');
-                    img.id = i;
                     var a = document.createElement('a');
-                    a.href = '#' + i;
+                    img.id = i;
                     img.src = srcs[i];
                     img.style.display = 'inline';
-                    img.width = '100';
-                    img.height = '100';
+                    img.width = '75';
+                    img.height = '75';
                     img.style.padding = '5px';
-                    a.appendChild(img);
                     li.appendChild(a);
+                    a.appendChild(img);
                     ul.appendChild(li);
                 }
                 var width = document.getElementById('maindiv').offsetWidth;
@@ -312,8 +340,12 @@
                 return e.target || e.srcElement;
             }
             //click tracklist
-            var goTop = document.getElementById('goTop');
-            goTop.onclick = function (event) {
+            //var goTop = document.getElementById('goTop');
+            //goTop.onclick = function (event) {
+            //    window.scrollTo(0, 0);
+            //};
+            var tdTag = document.getElementById('tdTag');
+            tdTag.onclick = function (event) {
                 window.scrollTo(0, 0);
             };
             var ul = document.getElementById('tracklist');
@@ -347,36 +379,40 @@
             //click albumlist
             var ulartist = document.getElementById('albumlist');
             ulartist.onclick = function (event) {
+                document.getElementById('parentTrackDiv').style.height = '600px';
+                document.getElementById('tracklist').innerHTML = '';
                 var off = dw_getScrollOffsets();
                 localStorage.setItem("offSet", off.y);
-                document.getElementById('tracklist').innerHTML = '';
-
                 var target = getEventTarget(event);
                 var id = parseInt(target.getAttribute('id'));
 
                 document.getElementById('listAlbums').selectedIndex = id + 1;
                 __doPostBack('<%= listAlbums.UniqueID %>', '');
                 var offSet = localStorage.getItem("offSet");
-
-                window.scrollTo(0, offSet);
+                document.getElementById('tracklist').style.marginBottom = '60px';
+                //window.scrollTo(0, offSet);
             };
             var prm = Sys.WebForms.PageRequestManager.getInstance();
             prm.add_endRequest(function (s, e) {
                 var offSet = localStorage.getItem("offSet");
-                window.scrollTo(0, offSet);
+                //window.scrollTo(0, offSet);
 
             });
             //
             function playTrack(tracklist, idlist) {
-                document.getElementById('tracklist').innerHTML = "";
+                //$("#tracklist").slideUp();
+                
                 var ol = document.getElementById('tracklist');
-
+                //document.getElementById('tracklist').style.display = 'none';
+                //document.getElementById('tracklist').innerHTML = "";
                 for (i = 0; i < tracklist.length; i++) {
                     var li = document.createElement('li');
                     li.setAttribute('id', idlist[i]);
                     li.innerHTML = tracklist[i];
+                    li.style.overflow = 'hidden';
                     ol.appendChild(li);
                 }
+                //$("#tracklist").slideDown();
             }
             //window.onbeforeunload = function () {
             //    if (confirm('are you sure to exit?'))
@@ -464,7 +500,7 @@
                     document.getElementsByTagName('head')[0].appendChild(link);
                     img.src = response;
                     imgTop.src = response;
-                    $('body').css('background-image', 'url(' + response + ')');
+                    //$('body').css('background-image', 'url(' + response + ')');
                     img.addEventListener("loaded", unfade(img));
                 }
             }
@@ -478,7 +514,8 @@
             }
             function setArtist(response) {
                 var lbl = document.getElementById('lblSongArtist');
-                document.title = document.title + " - " + response;
+                var t = document.title + " - " + response;
+                document.title = t;
                 lbl.innerText = response;
                 unfade(lbl);
             }
