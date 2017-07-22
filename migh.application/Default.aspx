@@ -4,11 +4,11 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html id="xd" style="background-color: #121212" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
         #seekbar {
-            height: 4px;
+            height: 5px;
             background-color: black;
             width: 100%; 
             vertical-align: top
@@ -98,10 +98,10 @@
     <title>ghost</title>
 </head>
    
-<body style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
+<body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:62px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:63px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
         <table id="coverTab" style="text-align:center; width:100%">
@@ -213,24 +213,24 @@
     <div style="height:80px; background-color:transparent"> </div>
         
     <div id="footer" style="background-color: #282828">
-        <div style="height: 7px">
+        <div style="height: 7px; margin-top:2px">
             <progress id="seekbar" value="0" max="1"></progress>
         </div>
         <div>
             <audio id="audio" autoplay></audio>  
         </div>
-        <div style="text-align: center; height: 100%; margin-top:4px">
-            <img id="previous" src="images/previous.png" style="width: 25px; height: 25px; margin-bottom: 12px; margin-right: 15px"/>
-            <img id="play" src="images/play.png" style="width: 45px; height: 45px; margin-bottom:2px"/>
-            <img id="next" src="images/next.png" style="width: 25px; height: 25px;; margin-bottom: 12px; margin-left: 15px"/>
-            <div style="float: right; margin-top: 10px; display: inline-block; position: absolute; right: 0">
+        <div style="text-align: center; height: 100%; margin-top:8px">
+            <img id="previous" src="images/previous.png" style="width: 25px; height: 25px; margin-bottom: 18px; margin-right: 15px"/>
+            <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-bottom:6px"/>
+            <img id="next" src="images/next.png" style="width: 25px; height: 25px;; margin-bottom: 18px; margin-left: 15px"/>
+            <div style="float: right; display: inline-block; position: absolute; right: 0; margin-top:-15px">
                 <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
-                <span style="color: #FBFBFB; font-family; font-size">/</span>
+                <span style="color: #FBFBFB; font-family: verdana; font-size: 11px; color: #FBFBFB">/</span>
                 <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
             </div>
         </div>
     </div>
-    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 62px;">
+    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 63px;">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
@@ -246,6 +246,7 @@
                 <td style="text-align: left; width:65px; vertical-align:middle">
                     <img id="goTop" alt="imgSongCover" style="height:32px; display:none; width:32px" src="images/uparrow.png" />
                 </td>
+                
             </tr>
         </table>
     </div>
@@ -322,6 +323,7 @@
                     var li = document.createElement('li');
                     var img = document.createElement('img');
                     var a = document.createElement('a');
+                    
                     img.id = i;
                     img.src = srcs[i];
                     img.style.display = 'inline';
@@ -349,16 +351,21 @@
             //};
             var tdTag = document.getElementById('tdTag');
             tdTag.onclick = function (event) {
-                window.scrollTo(0, 0);
+                //window.scrollTo(0, 0);
+                var fullscrn = document.getElementById("xd");
+                req = fullscrn.requestFullScreen || fullscrn.webkitRequestFullScreen || fullscrn.mozRequestFullScreen;
+                req.call(fullscrn);
             };
             var ul = document.getElementById('tracklist');
             ul.onclick = function (event) {
                 var target = getEventTarget(event);
-                var off = dw_getScrollOffsets();
-                localStorage.setItem("offSet", off.y);
-                unfade(target);
-                document.getElementById('listSongs').selectedIndex = $(target).index() + 1;
-                __doPostBack('<%= listSongs.UniqueID %>', '');
+                if (target.getAttribute('type') == 'imgplay') {
+                    var off = dw_getScrollOffsets();
+                    localStorage.setItem("offSet", off.y);
+                    unfade(target);
+                    document.getElementById('listSongs').selectedIndex = parseInt($(target).attr('id')) + 1;
+                    __doPostBack('<%= listSongs.UniqueID %>', parseInt($(target).attr('id')));
+                }
             };
             //
             //get scroll dis
@@ -392,7 +399,7 @@
                 document.getElementById('listAlbums').selectedIndex = id + 1;
                 __doPostBack('<%= listAlbums.UniqueID %>', '');
                 var offSet = localStorage.getItem("offSet");
-                document.getElementById('tracklist').style.marginBottom = '60px';
+                document.getElementById('tracklist').style.marginBottom = '80px';
                 //window.scrollTo(0, offSet);
             };
             var prm = Sys.WebForms.PageRequestManager.getInstance();
@@ -407,22 +414,32 @@
                 
                 var ol = document.getElementById('tracklist');
                 //document.getElementById('tracklist').style.display = 'none';
-                //document.getElementById('tracklist').innerHTML = "";
+                document.getElementById('tracklist').innerHTML = "";
                 for (i = 0; i < tracklist.length; i++) {
                     var li = document.createElement('li');
+                    var img = document.createElement('img');
+                    img.id = i;
+                    img.setAttribute('type', 'imgplay');
+                    img.src = 'images/playtrack.png';
+                    img.width = 24;
+                    img.height = 24;
+                    img.style.marginBottom = '-7px';
+                    img.style.styleFloat = 'left';
                     li.setAttribute('id', idlist[i]);
-                    li.innerHTML = tracklist[i];
+                    li.appendChild(img);
+                    li.appendChild(document.createTextNode('       - ' + (i+1) + '. ' + tracklist[i]));
                     li.style.overflow = 'hidden';
+                    
                     ol.appendChild(li);
                 }
                 //$("#tracklist").slideDown();
             }
-            //window.onbeforeunload = function () {
-            //    if (confirm('are you sure to exit?'))
-            //        return true;
-            //    else
-            //        return false;
-            //};
+            window.onbeforeunload = function () {
+                if (confirm('¿Deseas salir?'))
+                    return true;
+                else
+                    return false;
+            };
             $(document).ready(function () {
                 $('a').each(function () {
                     $(this).data('href', $(this).attr('href')).hide();
@@ -447,8 +464,7 @@
             function TriggerNextSong() {
                 PageMethods.getNextSong(OnSucceeded, OnFailed);
             }
-            function PlaySong(title) {
-                var title = '';
+            function PlaySong() {
                 setInterval(resetTimeout, 300000);
                 PageMethods.getSongURL(OnSucceeded, OnFailed);
             }
@@ -508,17 +524,12 @@
                 }
             }
             function setTitle(response) {
-                localStorage.removeItem("title");
                 var lbl = document.getElementById('lblSongTitle');
-                document.title = '';
-                document.title = response;
                 lbl.innerText = response;
                 unfade(lbl);
             }
             function setArtist(response) {
                 var lbl = document.getElementById('lblSongArtist');
-                var t = document.title + " - " + response;
-                document.title = t;
                 lbl.innerText = response;
                 unfade(lbl);
             }
@@ -571,8 +582,18 @@
                 var duration = date.toISOString().substr(14, 5);
                 document.getElementById('currentTime').innerHTML = currentTime;
                 document.getElementById('duration').innerHTML = duration;
+            });
+            document.getElementById('seekbar').addEventListener('click', function (e) {
+                var x = e.pageX - this.offsetLeft, // or e.offsetX (less support, though)
+                    y = e.pageY - this.offsetTop,  // or e.offsetY
+                    clickedValue = x * this.max / this.offsetWidth,
+                    isClicked = clickedValue;
 
-
+                if (isClicked) {
+                    var audio = document.getElementById("audio");
+                    var newtime = audio.duration * clickedValue;
+                    audio.currentTime = newtime;
+                }
             });
     </script>
     </form>

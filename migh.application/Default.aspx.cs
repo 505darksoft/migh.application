@@ -331,19 +331,19 @@ namespace migh.application
                             item.Text = album.name;
                             item.Value = album.id.ToString();
                             listAlbums.Items.Add(item);
-                            foreach(Song song in lib.song_list)
-                            {
-                                if(song.artist_id == artist.id)
-                                {
-                                    ListItem itemSong = new ListItem();
-                                    itemSong.Text = song.name;
-                                    itemSong.Value = song.id.ToString();
-                                    if(!listSongs.Items.Contains(itemSong))
-                                    {
-                                        listSongs.Items.Add(itemSong);
-                                    }
-                                }
-                            }
+                            //foreach(Song song in lib.song_list)
+                            //{
+                            //    if(song.artist_id == artist.id)
+                            //    {
+                            //        ListItem itemSong = new ListItem();
+                            //        itemSong.Text = song.name;
+                            //        itemSong.Value = song.id.ToString();
+                            //        if(!listSongs.Items.Contains(itemSong))
+                            //        {
+                            //            listSongs.Items.Add(itemSong);
+                            //        }
+                            //    }
+                            //}
                         }
                     }
                     listAlbums.SelectedIndex = 0;
@@ -433,7 +433,10 @@ namespace migh.application
                 
             }
         }
-
+        public void xd(int i)
+        {
+            Session.Add("currentSongIndex", i);
+        }
         protected void listSongs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listSongs.SelectedIndex > 0)
