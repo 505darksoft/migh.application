@@ -101,7 +101,7 @@
 <body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:63px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:66px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
         <table id="coverTab" style="text-align:center; width:100%">
@@ -213,30 +213,32 @@
     <div style="height:80px; background-color:transparent"> </div>
         
     <div id="footer" style="background-color: #282828">
-        <div style="height: 7px; margin-top:2px">
+        <div style="opacity:0.4; height: 7px; margin-top:2px">
             <progress id="seekbar" value="0" max="1"></progress>
         </div>
         <div>
             <audio id="audio" autoplay></audio>  
         </div>
-        <div style="text-align: center; height: 100%; margin-top:8px">
-            <img id="previous" src="images/previous.png" style="width: 25px; height: 25px; margin-bottom: 18px; margin-right: 15px"/>
+        <div style="text-align: center; height: 100%; margin-top:8px; opacity:0.7">
+            <img id="previous" src="images/previous.png" style="width: 18px; height: 18px; margin-bottom: 22px; margin-right: 13px"/>
             <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-bottom:6px"/>
-            <img id="next" src="images/next.png" style="width: 25px; height: 25px;; margin-bottom: 18px; margin-left: 15px"/>
-            <div style="float: right; display: inline-block; position: absolute; right: 0; margin-top:-15px">
+            <img id="next" src="images/next.png" style="width: 18px; height: 18px;; margin-bottom: 22px; margin-left: 15px"/>
+            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-12px">
                 <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
-                <span style="color: #FBFBFB; font-family: verdana; font-size: 11px; color: #FBFBFB">/</span>
+            </div>
+            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-12px">
+                
                 <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
             </div>
         </div>
     </div>
-    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 63px;">
+    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 66px;">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
                     <img id="imgSongCoverTop" alt="imgSongCover" style="height:61px; display:none; width:61px" src="images/default_album.png" />
                 </td>
-                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:62px">
+                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:64px">
                     <label id="lblSongTitle" style="font-family:Verdana; font-size:12px; color:#FBFBFB">Título</label>
                     <br />
                     <label id="lblSongArtist" style="font-family:Verdana; font-size:12px; color:#97A09B">Artista</label>
@@ -269,7 +271,6 @@
                     }
                 }
             };
-
             var Utils = new Utils();
             window.addEventListener('scroll', function () {
                 var isElementInView = Utils.isElementInView($('#hide'), false);
@@ -360,8 +361,6 @@
             ul.onclick = function (event) {
                 var target = getEventTarget(event);
                 if (target.getAttribute('type') == 'imgplay') {
-                    var off = dw_getScrollOffsets();
-                    localStorage.setItem("offSet", off.y);
                     unfade(target);
                     document.getElementById('listSongs').selectedIndex = parseInt($(target).attr('id')) + 1;
                     __doPostBack('<%= listSongs.UniqueID %>', parseInt($(target).attr('id')));
@@ -389,6 +388,7 @@
             //click albumlist
             var ulartist = document.getElementById('albumlist');
             ulartist.onclick = function (event) {
+                var inner = document.getElementById('tracklist').innerHTML;
                 document.getElementById('parentTrackDiv').style.height = '600px';
                 document.getElementById('tracklist').innerHTML = '';
                 var off = dw_getScrollOffsets();
@@ -400,6 +400,9 @@
                 __doPostBack('<%= listAlbums.UniqueID %>', '');
                 var offSet = localStorage.getItem("offSet");
                 document.getElementById('tracklist').style.marginBottom = '80px';
+                if (document.getElementById('tracklist').innerHTML == '') {
+                    document.getElementById('tracklist').innerHTML = inner;
+                }
                 //window.scrollTo(0, offSet);
             };
             var prm = Sys.WebForms.PageRequestManager.getInstance();
@@ -423,11 +426,12 @@
                     img.src = 'images/playtrack.png';
                     img.width = 24;
                     img.height = 24;
-                    img.style.marginBottom = '-7px';
+                    img.style.marginBottom = '-8px';
+                    img.style.marginRight = '10px';
                     img.style.styleFloat = 'left';
                     li.setAttribute('id', idlist[i]);
                     li.appendChild(img);
-                    li.appendChild(document.createTextNode('       - ' + (i+1) + '. ' + tracklist[i]));
+                    li.appendChild(document.createTextNode('     ' + (i+1) + '. ' + tracklist[i]));
                     li.style.overflow = 'hidden';
                     
                     ol.appendChild(li);
@@ -483,6 +487,46 @@
                     PageMethods.getCurrentSongAlbum(setAlbum);
                     audio.src = response;
                     audio.play()
+                    .then(_ => updatemetadata())
+                }
+            }
+            function updatemetadata() {
+                PageMethods.getCurrentSongTitle(title);
+                var _title = '';
+                var _album = '';
+                var _artist = '';
+                var _cover = '';
+                function title(str) {
+                    _title = str;
+                    PageMethods.getCurrentSongAlbum(album);
+                    function album(str) {
+                        _album = str;
+                        PageMethods.getCurrentSongArtist(artist);
+                        function artist(str) {
+                            _artist = str;
+                            PageMethods.getCurrentSongCover(cover);
+                            function cover(str) {
+                                _cover = str;
+                                if ('mediaSession' in navigator) {
+                                    navigator.mediaSession.metadata = new MediaMetadata({
+                                        title: _title,
+                                        artist: _artist,
+                                        album: _album,
+                                        artwork: [{ src: _cover }], 
+                                    });
+                                    navigator.mediaSession.setActionHandler('play', function () { 
+                                        document.getElementById('audio').play();
+                                    });
+                                    navigator.mediaSession.setActionHandler('pause', function () { 
+                                        document.getElementById('audio').pause();
+                                    });
+                                    navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
+                                    navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
             function fade(element) {
@@ -512,11 +556,6 @@
                 var imgTop = document.getElementById('imgSongCoverTop');
                 if (response != img.src) {
                     //changeFavicon(response);
-                    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-                    link.type = 'image/x-icon';
-                    link.rel = 'shortcut icon';
-                    link.href = response;
-                    document.getElementsByTagName('head')[0].appendChild(link);
                     img.src = response;
                     imgTop.src = response;
                     //$('body').css('background-image', 'url(' + response + ')');
@@ -565,7 +604,14 @@
                     audio.pause();
                     play.setAttribute('src', 'images/play.png');
                 }
+                updatemetadata();
             });
+            //$(window).blur(function(){
+            //    document.getElementById('audio').pause();
+            //});
+            //$(window).focus(function(){
+            //    document.getElementById('audio').play();
+            //});
             $('#audio').on('timeupdate', function () {
                 if (audio.paused) {
                     play.setAttribute('src', 'images/play.png');
@@ -578,17 +624,17 @@
 
                 var currentTime = date.toISOString().substr(14, 5);
                 var date2 = new Date(null);
-                date.setSeconds(this.duration); // specify value for SECONDS here
-                var duration = date.toISOString().substr(14, 5);
+                date2.setSeconds(this.duration); // specify value for SECONDS here
+                var duration = date2.toISOString().substr(14, 5);
                 document.getElementById('currentTime').innerHTML = currentTime;
                 document.getElementById('duration').innerHTML = duration;
+                updatemetadata();
             });
             document.getElementById('seekbar').addEventListener('click', function (e) {
                 var x = e.pageX - this.offsetLeft, // or e.offsetX (less support, though)
                     y = e.pageY - this.offsetTop,  // or e.offsetY
                     clickedValue = x * this.max / this.offsetWidth,
                     isClicked = clickedValue;
-
                 if (isClicked) {
                     var audio = document.getElementById("audio");
                     var newtime = audio.duration * clickedValue;
