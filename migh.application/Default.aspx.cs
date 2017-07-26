@@ -109,17 +109,29 @@ namespace migh.application
                 {
                     listArtists.Items.Add(def);
                 }
-                foreach (int i in user.artist_list)
+                
+                List<Artist> SortedList = lib.artist_list.OrderBy(o => o.name).ToList();
+                foreach(Artist art in SortedList)
                 {
-                    Artist artist = Artist.get(lib.artist_list, i);
                     ListItem item = new ListItem();
-                    item.Text = artist.name;
-                    item.Value = artist.id.ToString();
+                    item.Text = art.name;
+                    item.Value = art.id.ToString();
                     if (!listArtists.Items.Contains(item))
                     {
                         listArtists.Items.Add(item);
                     }
                 }
+                //foreach (int i in user.artist_list)
+                //{
+                //    Artist artist = Artist.get(lib.artist_list, i);
+                //    ListItem item = new ListItem();
+                //    item.Text = artist.name;
+                //    item.Value = artist.id.ToString();
+                //    if (!listArtists.Items.Contains(item))
+                //    {
+                //        listArtists.Items.Add(item);
+                //    }
+                //}
                 
             }
             catch (Exception ex)
@@ -319,14 +331,17 @@ namespace migh.application
                 listSongs.Items.Clear();
                 listSongs.Items.Add("(Canción)");
                 Artist artist = Artist.get(lib.artist_list, Convert.ToInt32(listArtists.SelectedValue));
+
                 if(artist != null)
                 {
                     List<string> albumimg = new List<string>();
+                    List<string> albumname = new List<string>();
                     foreach(Album album in lib.album_list)
                     {
                         if(album.artist_id == artist.id)
                         {
                             albumimg.Add(string.Format(lib.configuration.AlbumCoverImageFileURLFormat, artist.url_name, album.url_name));
+                            albumname.Add(string.Format("{0} - {1}",album.name, artist.name));
                             ListItem item = new ListItem();
                             item.Text = album.name;
                             item.Value = album.id.ToString();
@@ -348,8 +363,9 @@ namespace migh.application
                     }
                     listAlbums.SelectedIndex = 0;
                     listSongs.SelectedIndex = 0;
+                    var anames = Newtonsoft.Json.JsonConvert.SerializeObject(albumname.ToArray<string>());
                     var acovers = Newtonsoft.Json.JsonConvert.SerializeObject(albumimg.ToArray<string>());
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + ")", true);
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + "," + anames + ")", true);
                 }
             }
             else

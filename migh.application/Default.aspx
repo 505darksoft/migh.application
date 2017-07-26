@@ -7,6 +7,25 @@
 <html id="xd" style="background-color: #121212" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
         #seekbar {
             height: 5px;
             background-color: black;
@@ -91,6 +110,7 @@
             padding-left:10px;
         }
     </style>
+    <script src="js/color-thief.min.js"></script>
     <script type="text/javascript" src="js/jquery.fracs-0.15.0.js"></script>
     <link rel="shortcut icon" type="image/png" href="images/music-player.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -101,7 +121,7 @@
 <body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:66px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:72px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
         <table id="coverTab" style="text-align:center; width:100%">
@@ -197,6 +217,10 @@
         </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
     <div id="parentTrackDiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+        <div class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+            <label id="lblCurrentAlbum" style="font-family:Verdana; font-size:12px; color:#97A09B"></label>
+        </div>
+        
         <div id="tracksdiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
             <table style="width:100%;">
                 <tr>
@@ -232,7 +256,7 @@
             </div>
         </div>
     </div>
-    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 66px;">
+    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 66px; border-bottom-style:solid; border-bottom-color:#4b4b4b; border-width:4px">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
@@ -275,7 +299,7 @@
             window.addEventListener('scroll', function () {
                 var isElementInView = Utils.isElementInView($('#hide'), false);
                 var off = dw_getScrollOffsets();
-                if (parseInt(off.y) > 170) {
+                if (parseInt(off.y) > 250) {
                     document.getElementById('imgSongCoverTop').style.display = 'inline';
                     //document.getElementById('goTop').style.display = 'inline';
                     document.getElementById('tdImg').style.display = 'inline';
@@ -316,15 +340,16 @@
                 });
             };
 
-            function fillCovers(srcs) {
+            function fillCovers(srcs, names) {
                 document.getElementById('albumlist').innerHTML = "<a />";
                 var ul = document.getElementById('albumlist');
                 var width = document.getElementById('maindiv').offsetWidth;
                 for (i = 0; i < srcs.length; i++) {
                     var li = document.createElement('li');
                     var img = document.createElement('img');
+                    img.alt = names[i];
                     var a = document.createElement('a');
-                    
+                    img.setAttribute('type', 'albumitem');
                     img.id = i;
                     img.src = srcs[i];
                     img.style.display = 'inline';
@@ -388,21 +413,28 @@
             //click albumlist
             var ulartist = document.getElementById('albumlist');
             ulartist.onclick = function (event) {
-                var inner = document.getElementById('tracklist').innerHTML;
-                document.getElementById('parentTrackDiv').style.height = '600px';
-                document.getElementById('tracklist').innerHTML = '';
-                var off = dw_getScrollOffsets();
-                localStorage.setItem("offSet", off.y);
                 var target = getEventTarget(event);
-                var id = parseInt(target.getAttribute('id'));
+                if (target.getAttribute('type') == 'albumitem') {
+                    var inner = document.getElementById('tracklist').innerHTML;
 
-                document.getElementById('listAlbums').selectedIndex = id + 1;
-                __doPostBack('<%= listAlbums.UniqueID %>', '');
-                var offSet = localStorage.getItem("offSet");
-                document.getElementById('tracklist').style.marginBottom = '80px';
-                if (document.getElementById('tracklist').innerHTML == '') {
-                    document.getElementById('tracklist').innerHTML = inner;
+                    document.getElementById('lblCurrentAlbum').innerText = target.getAttribute('alt');
+                    document.getElementById('parentTrackDiv').style.height = '600px';
+                    document.getElementById('tracklist').innerHTML = '';
+                    var off = dw_getScrollOffsets();
+                    localStorage.setItem("offSet", off.y);
+                    var target = getEventTarget(event);
+                    var id = parseInt(target.getAttribute('id'));
+
+                    document.getElementById('listAlbums').selectedIndex = id + 1;
+                    __doPostBack('<%= listAlbums.UniqueID %>', '');
+                    var offSet = localStorage.getItem("offSet");
+                    document.getElementById('tracklist').style.marginBottom = '80px';
+                    if (document.getElementById('tracklist').innerHTML == '') {
+                        document.getElementById('tracklist').innerHTML = inner;
+                    }
+                    unfade(target);
                 }
+                
                 //window.scrollTo(0, offSet);
             };
             var prm = Sys.WebForms.PageRequestManager.getInstance();
@@ -552,8 +584,10 @@
                 }, 10);
             }
             function setCover(response) {
+
                 var img = document.getElementById('imgSongCover');
                 var imgTop = document.getElementById('imgSongCoverTop');
+
                 if (response != img.src) {
                     //changeFavicon(response);
                     img.src = response;
@@ -606,6 +640,7 @@
                 }
                 updatemetadata();
             });
+
             //$(window).blur(function(){
             //    document.getElementById('audio').pause();
             //});
@@ -641,6 +676,24 @@
                     audio.currentTime = newtime;
                 }
             });
+            function getBase64Image(img) {
+                // Create an empty canvas element
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Copy the image contents to the canvas
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+
+                // Get the data-URL formatted image
+                // Firefox supports PNG and JPEG. You could check img.src to
+                // guess the original format, but be aware the using "image/jpg"
+                // will re-encode the image.
+                var dataURL = canvas.toDataURL("image/png");
+
+                return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            }
     </script>
     </form>
 </body>

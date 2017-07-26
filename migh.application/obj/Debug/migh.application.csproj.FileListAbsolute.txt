@@ -62,6 +62,6 @@ C:\migh.application\migh.application\bin\Newtonsoft.Json.xml
 C:\migh.application\migh.application\bin\System.Net.Http.Formatting.xml
 C:\migh.application\migh.application\bin\System.Web.Http.xml
 C:\migh.application\migh.application\bin\System.Web.Http.WebHost.xml
+C:\migh.application\migh.application\obj\Debug\migh.application.csprojResolveAssemblyReference.cache
 C:\migh.application\migh.application\obj\Debug\migh.application.dll
 C:\migh.application\migh.application\obj\Debug\migh.application.pdb
-C:\migh.application\migh.application\obj\Debug\migh.application.csprojResolveAssemblyReference.cache
