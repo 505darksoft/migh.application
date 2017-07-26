@@ -21,66 +21,67 @@ namespace migh.application
         {
             if (!IsPostBack)
             {
+                Session.Add("user", null);
                 string download = Request.QueryString["download"];
                 string nowplaying = Request.QueryString["nowplaying"];
                 string session = Request.QueryString["session"];
                 try
                 {
-                    if (session != null)
-                    {
-                        if (session.ToLower() == "end")
-                        {
-                            Session.Clear();
-                        }
-                    }
-                    else
-                    {
-                        if (download != null)
-                        {
-                            if (download.ToLower() == "nowplaying")
-                            {
-                                if (Session["currentList"] != null)
-                                {
-                                    List<Song> list = Session["currentList"] as List<Song>;
-                                    int index = (int)Session["currentSongIndex"];
-                                    Song song = list.ElementAt(index);
-                                    Artist artist = Artist.get(lib.artist_list, song.artist_id);
-                                    Album album = Album.get(lib.album_list, song.album_id);
-                                    string url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(song.file_name, lib.configuration.GitHubFile_TextToReplace_List));
-                                    Response.Redirect(url);
-                                }
-                            }
-                            else
-                            {
-                                int SongID = Convert.ToInt32(download);
-                                if (Song.id_exists(lib.song_list, SongID))
-                                {
-                                    Song song = lib.song_list.Single(n => n.id == SongID);
-                                    Artist artist = Artist.get(lib.artist_list, song.artist_id);
-                                    Album album = Album.get(lib.album_list, song.album_id);
-                                    string url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(song.file_name, lib.configuration.GitHubFile_TextToReplace_List));
-                                    Response.Redirect(url);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (nowplaying != null)
-                            {
-                                int SongID = Convert.ToInt32(nowplaying);
-                                if (Song.id_exists(lib.song_list, SongID))
-                                {
-                                    Song song = lib.song_list.Single(n => n.id == SongID);
-                                    List<Song> list = new List<Song>();
-                                    list.Add(song);
-                                    Session["currentList"] = list;
-                                    Session["currentSongIndex"] = 0;
-                                    Session["selectedSong"] = SongID;
-                                    Page.ClientScript.RegisterStartupScript(this.GetType(), "script", "PlaySong();", true);
-                                }
-                            }
-                        }
-                    }
+                    //if (session != null)
+                    //{
+                    //    if (session.ToLower() == "end")
+                    //    {
+                    //        Session.Clear();
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (download != null)
+                    //    {
+                    //        if (download.ToLower() == "nowplaying")
+                    //        {
+                    //            if (Session["currentList"] != null)
+                    //            {
+                    //                List<Song> list = Session["currentList"] as List<Song>;
+                    //                int index = (int)Session["currentSongIndex"];
+                    //                Song song = list.ElementAt(index);
+                    //                Artist artist = Artist.get(lib.artist_list, song.artist_id);
+                    //                Album album = Album.get(lib.album_list, song.album_id);
+                    //                string url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(song.file_name, lib.configuration.GitHubFile_TextToReplace_List));
+                    //                Response.Redirect(url);
+                    //            }
+                    //        }
+                    //        else
+                    //        {
+                    //            int SongID = Convert.ToInt32(download);
+                    //            if (Song.id_exists(lib.song_list, SongID))
+                    //            {
+                    //                Song song = lib.song_list.Single(n => n.id == SongID);
+                    //                Artist artist = Artist.get(lib.artist_list, song.artist_id);
+                    //                Album album = Album.get(lib.album_list, song.album_id);
+                    //                string url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(song.file_name, lib.configuration.GitHubFile_TextToReplace_List));
+                    //                Response.Redirect(url);
+                    //            }
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        if (nowplaying != null)
+                    //        {
+                    //            int SongID = Convert.ToInt32(nowplaying);
+                    //            if (Song.id_exists(lib.song_list, SongID))
+                    //            {
+                    //                Song song = lib.song_list.Single(n => n.id == SongID);
+                    //                List<Song> list = new List<Song>();
+                    //                list.Add(song);
+                    //                Session["currentList"] = list;
+                    //                Session["currentSongIndex"] = 0;
+                    //                Session["selectedSong"] = SongID;
+                    //                Page.ClientScript.RegisterStartupScript(this.GetType(), "script", "PlaySong();", true);
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "cleansomee()", true);
                 }
                 catch { }
