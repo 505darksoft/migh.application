@@ -8,14 +8,13 @@
 <head runat="server">
     <style>
         input[type=text] {
-            outline:solid;
-            outline-color:crimson;
+            outline:none;
             outline-width:2px;
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
-            border: 1px solid #4b4b4b;
+            border: 1px solid crimson;
             border-radius: 4px;
             box-sizing: border-box;
         }
@@ -25,15 +24,27 @@
             color:#FBFBFB;
         }
         #searchdiv {
+            height:57px;
             position:fixed;
-            top:72px;
+            top:0px;
+            width:100%;
+            left:0px;
+            right:0px;
+        }
+        #resultdiv {
+            border-bottom-style:solid;
+            border-bottom-color:crimson;
+            border-bottom-width:4px;
+            max-height:400px;
+            position:fixed;
+            top:62px;
             width:100%;
             left:-2px;
             right:0px;
         }
         div.searchitem {
-            outline-width:thin;
-            outline-color:#404040;
+            /*outline-width:thin;
+            outline-color:#404040;*/
             white-space:nowrap;
             outline-style:solid;
             background-color: #181818;
@@ -61,26 +72,32 @@
             to {bottom: 0; opacity: 0;}
         }
         #seekbar {
-            height: 5px;
-            background-color: black;
+            height: 10px;
             width: 100%; 
             vertical-align: top
         }
         progress[value]::-webkit-progress-value {
             background-color: crimson;
+            height:4px;
+        }
+        ::-webkit-progress-bar {
+           background-color: transparent;
+        }
+        progress {
+          -webkit-appearance: none;
         }
         label.light {
             font-family: 'Palanquin';
             vertical-align: middle;
             padding: 3px;
-            font-size:12px;
+            font-size:11px;
             width: 100%;
             color:#FBFBFB;
         }
         label.dark {
             font-family: 'Palanquin';
             padding: 3px;
-            font-size:12px;
+            font-size:11px;
             width: 100%;
             color:#97A09B;
         }
@@ -101,10 +118,14 @@
             background-color: #181818;
         } 
         #footer {
+            border-top-style:solid;
+            border-top-color:crimson;
+            border-top-width:2px;
             position: fixed;
             left: 0;
             bottom: 0;
             width: 100%;
+            height:70px;
         }
         label {
             text-overflow: ellipsis;
@@ -137,7 +158,7 @@
             border-radius:2px;
             color:#FBFBFB;
             font-family:Verdana;
-            font-size:12px;
+            font-size:11px;
             background-clip:padding-box;
             height:40px;
             line-height:40px;
@@ -155,7 +176,7 @@
 <body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:72px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:62px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
         <table id="coverTab" style="text-align:center; width:100%">
@@ -251,8 +272,8 @@
         </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
     <div id="parentTrackDiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
-        <div class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
-            <label id="lblCurrentAlbum" style="font-family:Verdana; font-size:12px; color:#97A09B"></label>
+        <div class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; overflow:hidden">
+            <label id="lblCurrentAlbum" style="font-family:Verdana; font-size:11px; color:#97A09B"></label>
         </div>
         
         <div id="tracksdiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
@@ -268,19 +289,19 @@
         </div>
     </div>
     
-    <div style="height:80px; background-color:transparent"> </div>
+    <div style="height:90px; background-color:transparent"> </div>
         
     <div id="footer" style="background-color: black">
-        <div style="height: 7px; margin-top:2px">
+        <div style="height: 10px; background-color:black">
             <progress id="seekbar" value="0" max="1"></progress>
         </div>
         <div>
-            <audio id="audio" autoplay></audio>  
+            <audio id="audio" autoplay="autoplay"></audio>  
         </div>
         <div style="text-align: center; height: 100%; margin-top:8px; opacity:0.7">
-            <img id="previous" src="images/previous.png" style="width: 18px; height: 18px; margin-bottom: 22px; margin-right: 13px"/>
-            <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-bottom:6px"/>
-            <img id="next" src="images/next.png" style="width: 18px; height: 18px;; margin-bottom: 22px; margin-left: 15px"/>
+            <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 20px"/>
+            <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
+            <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left: 20px"/>
             <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-12px">
                 <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
             </div>
@@ -288,24 +309,23 @@
                 
                 <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
             </div>
-            <div style="float: right; display: inline-block; position: absolute; right:8px; margin-top:30px">
-                
-                <img id="btnOpenSearch" style="height:20px; width:20px" src="images/search.png" />
+            <div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
+                <img style="height:20px; width:20px; vertical-align:middle" src="images/search.png" />
             </div>
         </div>
     </div>
-    <div style="background-color: black; position:fixed; top:0; left: 0; width:100%; height: 66px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
+    <div style="background-color: black; position:fixed; top:0; left: 0; width:100%; height: 60px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
-                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:61px; display:none; width:61px" src="images/default_album.png" />
+                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:57px; display:none; width:57px; vertical-align:middle" src="images/default_album.png" />
                 </td>
-                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:64px">
-                    <label id="lblSongTitle" style="font-family:Verdana; font-size:12px; color:#FBFBFB">Título</label>
+                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:57px">
+                    <label id="lblSongTitle" style="font-family:Verdana; font-size:11px; color:#FBFBFB">Título</label>
                     <br />
-                    <label id="lblSongArtist" style="font-family:Verdana; font-size:12px; color:#97A09B">Artista</label>
+                    <label id="lblSongArtist" style="font-family:Verdana; font-size:11px; color:#97A09B">Artista</label>
                     <br />
-                    <label id="lblSongAlbum" style="font-family:Verdana; font-size:12px; color:#FBFBFB">Álbum</label>
+                    <label id="lblSongAlbum" style="font-family:Verdana; font-size:11px; color:#FBFBFB">Álbum</label>
                 </td>
                 <td style="text-align: left; width:65px; vertical-align:middle">
                     <img id="goTop" alt="imgSongCover" style="height:32px; display:none; width:32px" src="images/uparrow.png" />
@@ -315,11 +335,19 @@
         </table>
     </div>
 
-    <div id="searchdiv" class="panel panel-primary" style=" display:none; text-align:left; background-color: black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 100%; max-height: 400px; overflow-y: auto;  border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
-        <div id="tdSearch" style="display:none; width:100%; top:68px; position:fixed" >
-            <table style="width:100%; top:68px; background-color: black">
+    
+    <div id="resultdiv" class="panel panel-primary" style=" display:none; text-align:left; background-color: black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 100%; max-height: 300px; overflow-y: auto">
+        <div style="width:auto; margin-top:5px; margin-bottom:5px">
+           <ul id="searchlist">
+                
+            </ul>
+       </div>
+    </div>
+    <div id="searchdiv" class="panel panel-primary" style=" display:none; text-align:left; background-color: black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 100%; max-height: 400px; overflow-y: auto">
+        <div id="tdSearch" style="display:none; width:100%; position:fixed" >
+            <table style="width:100%; background-color: black">
             <tr style="width:100%">
-                <td style="text-align:center; width:100%; vertical-align:middle; height:64px">
+                <td style="text-align:center; width:100%; vertical-align:middle; height:57px">
                     <input type="text" id="txtSearch" onkeydown="if (window.event.keyCode == 13) 
                         {
                             Search(document.getElementById('txtSearch').value);
@@ -327,23 +355,15 @@
                             event.cancel = true;
                             $('#txtSearch').blur();
                         }" 
-                        style="text-align:left; background-color:#181818; color:#FBFBFB; font-family:Verdana; font-size:12px"/>
+                        style="text-align:left; background-color:#181818; color:#FBFBFB; font-family:Verdana; font-size:11px"/>
                 </td>
-                <td style="text-align: left; width:65px; vertical-align:middle">
-                    <img id="btnSearch" style="height:20px; width:20px; margin-right:10px; margin-left:10px" src="images/search.png" />
+                <td id="btnSearch" style="text-align: left; width:65px; vertical-align:middle">
+                    <img style="height:20px; margin-top:5px; width:20px; margin-right:10px; margin-left:10px" src="images/search.png" />
                 </td>
 
             </tr>
         </table>
         </div>
-        
-        
-       
-        <div style="width:auto; margin-top:70px">
-           <ul id="searchlist">
-                
-            </ul>
-       </div>
     </div>
         <script>
             function Utils() {
@@ -464,12 +484,13 @@
             btnOpenSearch.onclick = function (event) {
                 var display = document.getElementById('searchdiv').style.display;
                 $('#searchdiv').slideToggle();
-                $('#tdSearch').toggle();
+                $('#tdSearch').slideToggle();
                 
                 if(display == 'none'){
                     document.getElementById('txtSearch').focus();
                 }else{
                     document.getElementById('tdTag').focus();
+                    $('#resultdiv').slideUp();
                 }
                 unfade(btnOpenSearch);
             };
@@ -517,6 +538,9 @@
                             //navigator.mediaSession.setActionHandler('play', function () { 
                             //    document.getElementById('audio').play();
                             //});
+                            navigator.mediaSession.setActionHandler('play', function () { 
+                                document.getElementById('audio').play();
+                            });
                             navigator.mediaSession.setActionHandler('pause', function () { 
                                 document.getElementById('audio').pause();
                             });
@@ -727,28 +751,28 @@
                             function cover(str) {
                                 _cover = str;
                                 if ('mediaSession' in navigator) {
-                                    //navigator.mediaSession.metadata = new MediaMetadata({
-                                    //    title: _title,
-                                    //    artist: _artist,
-                                    //    album: _album,
-                                    //    artwork: [{ src: _cover }], 
-                                    //});
-                                    var title_ = document.getElementById('lblSongTitle').innerHTML;
-                                    var album_ = document.getElementById('lblSongAlbum').innerHTML;
-                                    var artist_ = document.getElementById('lblSongArtist').innerHTML;
-                                    var cover_ = document.getElementById('imgSongCover').src;
-                                    navigator.mediaSession.metadata.title = title_;  
-                                    navigator.mediaSession.metadata.artist = artist_;  
-                                    navigator.mediaSession.metadata.album = album_;  
-                                    navigator.mediaSession.metadata.artwork = [{ src: cover_ }];  
-                                    //navigator.mediaSession.setActionHandler('play', function () { 
-                                    //    document.getElementById('audio').play();
-                                    //});
-                                    //navigator.mediaSession.setActionHandler('pause', function () { 
-                                    //    document.getElementById('audio').pause();
-                                    //});
-                                    //navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
-                                    //navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
+                                    navigator.mediaSession.metadata = new MediaMetadata({
+                                        title: _title,
+                                        artist: _artist,
+                                        album: _album,
+                                        artwork: [{ src: _cover }], 
+                                    });
+                                    //var title_ = document.getElementById('lblSongTitle').innerHTML;
+                                    //var album_ = document.getElementById('lblSongAlbum').innerHTML;
+                                    //var artist_ = document.getElementById('lblSongArtist').innerHTML;
+                                    //var cover_ = document.getElementById('imgSongCover').src;
+                                    //navigator.mediaSession.metadata.title = title_;  
+                                    //navigator.mediaSession.metadata.artist = artist_;  
+                                    //navigator.mediaSession.metadata.album = album_;  
+                                    //navigator.mediaSession.metadata.artwork = [{ src: cover_ }];  
+                                    navigator.mediaSession.setActionHandler('play', function () { 
+                                        document.getElementById('audio').play();
+                                    });
+                                    navigator.mediaSession.setActionHandler('pause', function () { 
+                                        document.getElementById('audio').pause();
+                                    });
+                                    navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
+                                    navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
                                 }
                             }
                         }
@@ -836,8 +860,8 @@
                 updatemetadata();
             });
 
-            //$(window).blur(function(){
-            //    document.getElementById('audio').pause();
+            //$('#txtSearch').blur(function(){
+            //    alert('blur');
             //});
             //$(window).focus(function(){
             //    document.getElementById('audio').play();
@@ -976,6 +1000,11 @@
                                     div.appendChild(name);
                                     list.appendChild(div);
                                 }
+                            }
+                            if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
+                                $('#resultdiv').slideDown();
+                            } else {
+                                $('#resultdiv').slideUp();
                             }
                         }
                     }
