@@ -479,5 +479,146 @@ namespace migh.application
             }
         }
         #endregion
+        
+        #region SEARCH
+        struct strArtist
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+        struct strAlbum
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string artist { get; set; }
+            public string cover { get; set; }
+        }
+        struct strTrack
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string artist { get; set; }
+            public string album { get; set; }
+        }
+        [WebMethod]
+        public static string SearchArtist(string name)
+        {
+            List<strArtist> list = new List<strArtist>();
+            foreach(Artist art in lib.artist_list)
+            {
+                if(art.name.ToLower().Contains(name.ToLower()))
+                {
+                    strArtist a = new strArtist();
+                    a.id = art.id;
+                    a.name = art.name;
+                    list.Add(a);
+                }
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<strArtist>());
+        }
+        [WebMethod]
+        public static string SearchAlbum(string name)
+        {
+            List<strAlbum> list = new List<strAlbum>();
+            foreach (Album alb in lib.album_list)
+            {
+                if (alb.name.ToLower().Contains(name.ToLower()))
+                {
+                    Artist art = Artist.get(lib.artist_list, alb.artist_id);
+                    strAlbum a = new strAlbum();
+                    a.id = alb.id;
+                    a.name = alb.name;
+                    a.artist = art.name;
+                    a.cover = string.Format(lib.configuration.AlbumCoverImageFileURLFormat, art.url_name, alb.url_name);
+                    list.Add(a);
+                }
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<strAlbum>());
+        }
+        [WebMethod]
+        public static string SearchTrack(string name)
+        {
+            List<strTrack> list = new List<strTrack>();
+            foreach (Song song in lib.song_list)
+            {
+                if (song.name.ToLower().Contains(name.ToLower()))
+                {
+                    Artist art = Artist.get(lib.artist_list, song.artist_id);
+                    Album alb = Album.get(lib.album_list, song.album_id);
+                    strTrack a = new strTrack();
+                    a.id = song.id;
+                    a.name = song.name;
+                    a.artist = art.name;
+                    a.album = alb.name;
+                    list.Add(a);
+                }
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<strTrack>());
+        }
+        struct strPlayTrack
+        {
+            public string name { get; set; }
+            public string album { get; set; }
+            public string artist { get; set; }
+            public string cover { get; set; }
+            public string url { get; set; }
+        }
+        [WebMethod]
+        public static string GetTrack(string id)
+        {
+            strPlayTrack str = new strPlayTrack();
+            Song song = lib.song_list.First(s => s.id == Convert.ToInt32(id));
+            Artist artist = Artist.get(lib.artist_list, song.artist_id);
+            Album album = Album.get(lib.album_list, song.album_id);
+            string url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(song.file_name, lib.configuration.GitHubFile_TextToReplace_List));
+            string cover = string.Format(lib.configuration.AlbumCoverImageFileURLFormat, artist.url_name, album.url_name);
+            str.name = song.name;
+            str.album = album.name;
+            str.artist = artist.name;
+            str.cover = cover;
+            str.url = url;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(str);
+        }
+        [WebMethod]
+        public static string GetAlbum(string id)
+        {
+            List<strAlbum> album = new List<strAlbum>();
+            Artist artist = Artist.get(lib.artist_list, Convert.ToInt32(Convert.ToInt32(id)));
+
+            if (artist != null)
+            {
+                List<string> albumimg = new List<string>();
+                List<string> albumname = new List<string>();
+                foreach (Album a in lib.album_list)
+                {
+                    if (a.artist_id == artist.id)
+                    {
+                        strAlbum s = new strAlbum();
+                        s.id = a.id;
+                        s.name = a.name;
+                        s.artist = artist.name;
+                        s.cover = string.Format(lib.configuration.AlbumCoverImageFileURLFormat, artist.url_name, a.url_name);
+                        album.Add(s);
+                    }
+
+                }
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(album);
+                    
+        }
+        [WebMethod]
+        public static string GetAlbumTracks(string id)
+        {
+            List<Song> list = new List<Song>();
+            foreach(Song s in lib.song_list)
+            {
+                if(s.album_id == Convert.ToInt32(id))
+                {
+                    list.Add(s);
+                }
+            }
+            return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<Song>());
+        }
+        #endregion
     }
 }
