@@ -918,6 +918,7 @@
                                     var img = document.createElement('img');
                                     img.id = Artist[i].id;
                                     img.setAttribute('type', 'artist');
+                                    img.style.marginRight = '5px';
                                     img.src = 'images/artist.png';
                                     img.height = 30;
                                     img.width = 30;
@@ -943,6 +944,7 @@
                                     img.id = Album[i].id;
                                     img.setAttribute('type', 'album');
                                     img.src = 'images/album.png';
+                                    img.style.marginRight = '5px';
                                     img.height = 30;
                                     img.width = 30;
                                     img.style.verticalAlign = 'middle';
@@ -966,6 +968,7 @@
                                     img.id = Track[i].id;
                                     img.setAttribute('type', 'track');
                                     img.src = 'images/track.png';
+                                    img.style.marginRight = '5px';
                                     img.height = 30;
                                     img.width = 30;
                                     img.style.verticalAlign = 'middle';
