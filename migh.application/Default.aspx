@@ -8,7 +8,9 @@
 <head runat="server">
     <style>
         input[type=text] {
-            outline:none;
+            outline:solid;
+            outline-color:crimson;
+            outline-width:2px;
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -24,14 +26,16 @@
         }
         #searchdiv {
             position:fixed;
-            top:70px;
+            top:72px;
             width:100%;
             left:-2px;
             right:0px;
         }
         div.searchitem {
+            outline-width:thin;
+            outline-color:#404040;
             white-space:nowrap;
-            border-radius:2px;
+            outline-style:solid;
             background-color: #181818;
             margin: 10px;
             margin-left:-30px;
@@ -63,7 +67,7 @@
             vertical-align: top
         }
         progress[value]::-webkit-progress-value {
-            background-color: white;
+            background-color: crimson;
         }
         label.light {
             font-family: 'Palanquin';
@@ -266,8 +270,8 @@
     
     <div style="height:80px; background-color:transparent"> </div>
         
-    <div id="footer" style="background-color: #282828">
-        <div style="opacity:0.4; height: 7px; margin-top:2px">
+    <div id="footer" style="background-color: black">
+        <div style="height: 7px; margin-top:2px">
             <progress id="seekbar" value="0" max="1"></progress>
         </div>
         <div>
@@ -284,13 +288,13 @@
                 
                 <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
             </div>
-            <div style="float: right; display: inline-block; position: absolute; right:10px; margin-top:15px">
+            <div style="float: right; display: inline-block; position: absolute; right:8px; margin-top:30px">
                 
                 <img id="btnOpenSearch" style="height:20px; width:20px" src="images/search.png" />
             </div>
         </div>
     </div>
-    <div style="background-color: #282828; position:fixed; top:0; left: 0; width:100%; height: 66px; border-bottom-style:solid; border-bottom-color:#4b4b4b; border-width:4px">
+    <div style="background-color: black; position:fixed; top:0; left: 0; width:100%; height: 66px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
         <table style="width:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
@@ -311,9 +315,9 @@
         </table>
     </div>
 
-    <div id="searchdiv" class="panel panel-primary" style=" display:none; text-align:left; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 100%; max-height: 400px; overflow-y: auto;  border-bottom-style:solid; border-bottom-color:#4b4b4b; border-width:4px">
-        <div id="tdSearch" style="display:none; width:100%; top:70px; position:fixed" >
-            <table style="width:100%; top:68px; background-color: #282828">
+    <div id="searchdiv" class="panel panel-primary" style=" display:none; text-align:left; background-color: black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 100%; max-height: 400px; overflow-y: auto;  border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
+        <div id="tdSearch" style="display:none; width:100%; top:68px; position:fixed" >
+            <table style="width:100%; top:68px; background-color: black">
             <tr style="width:100%">
                 <td style="text-align:center; width:100%; vertical-align:middle; height:64px">
                     <input type="text" id="txtSearch" onkeydown="if (window.event.keyCode == 13) 
@@ -460,7 +464,8 @@
             btnOpenSearch.onclick = function (event) {
                 var display = document.getElementById('searchdiv').style.display;
                 $('#searchdiv').slideToggle();
-                $('#tdSearch').slideToggle();
+                $('#tdSearch').toggle();
+                
                 if(display == 'none'){
                     document.getElementById('txtSearch').focus();
                 }else{
@@ -498,24 +503,25 @@
                         setArtist(track.artist);
                         setCover(track.cover);
                         if ('mediaSession' in navigator) {
-                            //navigator.mediaSession.metadata = new MediaMetadata({
-                            //    title: track.name,
-                            //    artist: track.artist,
-                            //    album: track.album,
-                            //    artwork: [{ src: track.cover }], 
-                            //});
-                            navigator.mediaSession.metadata.title = track.name;  
-                            navigator.mediaSession.metadata.artist = track.artist;  
-                            navigator.mediaSession.metadata.album = track.album;  
-                            navigator.mediaSession.metadata.artwork = [{ src: track.cover }];  
+                            navigator.mediaSession.metadata = new MediaMetadata({
+                                title: track.name,
+                                artist: track.artist,
+                                album: track.album,
+                                artwork: [{ src: track.cover }], 
+                            });
+                            //navigator.mediaSession.metadata.title = track.name;  
+                            //navigator.mediaSession.metadata.artist = track.artist;  
+                            //navigator.mediaSession.metadata.album = track.album;  
+                            //navigator.mediaSession.metadata.artwork = [{ src: track.cover }];  
+                            //alert(navigator.mediaSession.metadata.artwork[0].src);
                             //navigator.mediaSession.setActionHandler('play', function () { 
                             //    document.getElementById('audio').play();
                             //});
-                            //navigator.mediaSession.setActionHandler('pause', function () { 
-                            //    document.getElementById('audio').pause();
-                            //});
-                            //navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
-                            //navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
+                            navigator.mediaSession.setActionHandler('pause', function () { 
+                                document.getElementById('audio').pause();
+                            });
+                            navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
+                            navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
                         }
                         //updatemetadata();
                     }
@@ -639,25 +645,25 @@
                     return false;
             };
             $(document).ready(function () {
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: '',
-                        artist: '',
-                        album: '',
-                        artwork: [{ src: '' }], 
-                    });
+                //if ('mediaSession' in navigator) {
+                //    navigator.mediaSession.metadata = new MediaMetadata({
+                //        title: '',
+                //        artist: '',
+                //        album: '',
+                //        artwork: [{ src: 'images/album.png' }], 
+                //    });
                                    
-                    navigator.mediaSession.setActionHandler('play', function () { 
-                        document.getElementById('audio').play();
-                    });
-                    navigator.mediaSession.setActionHandler('pause', function () { 
-                        document.getElementById('audio').pause();
-                    });
-                    navigator.mediaSession.setActionHandler('seekbackward', function() { document.getElementById('audio').currentTime = 0; });
-                    navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
-                    navigator.mediaSession.setActionHandler('seekforward', function() {  document.getElementById('audio').currentTime = Math.min(document.getElementById('audio').currentTime + 10, audio.duration); });
-                    navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
-                }
+                //    navigator.mediaSession.setActionHandler('play', function () { 
+                //        document.getElementById('audio').play();
+                //    });
+                //    navigator.mediaSession.setActionHandler('pause', function () { 
+                //        document.getElementById('audio').pause();
+                //    });
+                //    navigator.mediaSession.setActionHandler('seekbackward', function() { document.getElementById('audio').currentTime = 0; });
+                //    navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
+                //    navigator.mediaSession.setActionHandler('seekforward', function() {  document.getElementById('audio').currentTime = Math.min(document.getElementById('audio').currentTime + 10, audio.duration); });
+                //    navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
+                //}
                 $('a').each(function () {
                     $(this).data('href', $(this).attr('href')).hide();
                 });
