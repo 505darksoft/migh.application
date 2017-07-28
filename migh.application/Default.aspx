@@ -763,6 +763,8 @@
                 return "Dude, are you sure you want to leave? Think of the kittens!";
             }
             $(document).ready(function () {
+                var img = document.getElementById('imgSongCover');
+                img.addEventListener("loaded", unfade(img));
                 //if ('mediaSession' in navigator) {
                 //    navigator.mediaSession.metadata = new MediaMetadata({
                 //        title: '',
@@ -910,8 +912,6 @@
                     //changeFavicon(response);
                     img.src = response;
                     imgTop.src = response;
-                    //$('body').css('background-image', 'url(' + response + ')');
-                    img.addEventListener("loaded", unfade(img));
                 }
             }
             function setTitle(response) {
