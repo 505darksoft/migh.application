@@ -519,7 +519,7 @@
                     img.src = srcs[i];
                     img.style.display = 'inline';
                     img.width = '90';
-                    img.height = '90';
+                    img.height = '90'; 
                     img.style.padding = '5px';
                     li.appendChild(a);
                     a.appendChild(label);
