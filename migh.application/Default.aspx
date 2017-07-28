@@ -23,8 +23,10 @@
             outline: none;
             outline-width: 2px;
             width: 100%;
-            
+            padding-left: 12px;
+            padding-right:12px;
             margin: 8px 0;
+            font-size:10px;
             display: inline-block;
             border: 1px solid crimson;
             border-radius: 4px;
