@@ -54,9 +54,9 @@
             border-bottom-width: 4px;
             max-height: 400px;
             position: fixed;
-            top: 62px;
+            top: 60px;
             width: 100%;
-            left: -2px;
+
             right: 0px;
         }
 
@@ -108,15 +108,15 @@
         }
 
         @keyframes fadeout {
-            from {
-                bottom: 30px;
-                opacity: 1;
-            }
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
 
-            to {
-                bottom: 0;
-                opacity: 0;
-            }
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
         }
 
         #seekbar {
@@ -139,19 +139,14 @@
         }
 
         label.light {
-            font-family: 'Palanquin';
-            vertical-align: middle;
-            padding: 3px;
-            font-size: 11px;
-            width: 100%;
+            font-family: Verdana;
+            font-size: 10px;
             color: #FBFBFB;
         }
 
         label.dark {
-            font-family: 'Palanquin';
-            padding: 3px;
-            font-size: 11px;
-            width: 100%;
+            font-family: Verdana;
+            font-size: 10px;
             color: #97A09B;
         }
 
@@ -203,11 +198,11 @@
             background-color: #282828;
         }
 
-            ul.images li {
-                display: inline;
-                width: 70px;
-                height: 70px;
-            }
+        ul.images li {
+            display: inline;
+            width: 70px;
+            height: 70px;
+        }
 
         ol {
             background: #282828;
@@ -215,21 +210,21 @@
             padding-left: 0px;
         }
 
-            ol li {
-                border-bottom-color: #97A09B;
-                border-bottom-style: outset;
-                border-bottom-width: 2px;
-                background: #181818;
-                /*margin: 5px;*/
-                border-radius: 2px;
-                color: #97A09B;
-                font-family: Verdana;
-                font-size: 10px;
-                background-clip: padding-box;
-                height: 40px;
-                line-height: 40px;
-                padding-left: 10px;
-            }
+        ol li {
+            border-bottom-color: #97A09B;
+            border-bottom-style: outset;
+            border-bottom-width: 1px;
+            background: #181818;
+            /*margin: 5px;*/
+            border-radius: 2px;
+            color: #FBFBFB;
+            font-family: Verdana;
+            font-size: 10px;
+            background-clip: padding-box;
+            height: 40px;
+            line-height: 40px;
+            padding-left: 10px;
+        }
     </style>
     <script src="js/color-thief.min.js"></script>
     <script type="text/javascript" src="js/jquery.fracs-0.15.0.js"></script>
@@ -338,8 +333,8 @@
         </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
     <div id="parentTrackDiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
-        <div class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; overflow:hidden">
-            <label id="lblCurrentAlbum" style="font-family:Verdana; font-size:11px; color:#97A09B"></label>
+        <div id="txtCurrentAlbum" class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; overflow:hidden">
+            <%--<label id="lblCurrentAlbum" style="font-family:Verdana; font-size:11px; color:#97A09B"></label>--%>
         </div>
         
         <div id="tracksdiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
@@ -695,7 +690,21 @@
                     var inner = document.getElementById('tracklist').innerHTML;
                     var albname = target.getAttribute('alt').split('@')[0];
                     var artname = target.getAttribute('alt').split('@')[1];
-                    document.getElementById('lblCurrentAlbum').innerText = albname + " - " + artname;
+                    var albumlabel = document.createElement('label');
+                    var artistlabel = document.createElement('label');
+                    var br = document.createElement('br');
+                    
+                    albumlabel.className = 'light';
+
+                    artistlabel.className = 'dark';
+
+                    albumlabel.innerHTML = albname;
+                    artistlabel.innerHTML = artname;
+                    var txtcurrentalbum = document.getElementById('txtCurrentAlbum');
+                    txtcurrentalbum.innerHTML = '';
+                    txtcurrentalbum.appendChild(artistlabel);
+                    txtcurrentalbum.appendChild(br);
+                    txtcurrentalbum.appendChild(albumlabel);
                     document.getElementById('parentTrackDiv').style.height = '600px';
                     document.getElementById('tracklist').innerHTML = '';
                     var off = dw_getScrollOffsets();
@@ -807,7 +816,6 @@
             //    TriggerNextSong();
             //}; 
             function clearMetadata() {
-                navigator.mediaSession.metadata = null;
                 navigator.mediaSession = null;
             }
             function OnSucceeded(response) {
