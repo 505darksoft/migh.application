@@ -324,6 +324,7 @@ namespace migh.application
         #region eventos combos
         protected void listArtists_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string artistname = "";
             List<ListItem> list = new List<ListItem>();
             if(listArtists.SelectedIndex > 0)
             {
@@ -337,12 +338,14 @@ namespace migh.application
                 {
                     List<string> albumimg = new List<string>();
                     List<string> albumname = new List<string>();
+                    
                     foreach(Album album in lib.album_list)
                     {
                         if(album.artist_id == artist.id)
                         {
                             albumimg.Add(string.Format(lib.configuration.AlbumCoverImageFileURLFormat, artist.url_name, album.url_name));
-                            albumname.Add(string.Format("{0} - {1}",album.name, artist.name));
+                            albumname.Add(album.name);
+                            artistname = artist.name;
                             ListItem item = new ListItem();
                             item.Text = album.name;
                             item.Value = album.id.ToString();
@@ -364,9 +367,10 @@ namespace migh.application
                     }
                     listAlbums.SelectedIndex = 0;
                     listSongs.SelectedIndex = 0;
-                    var anames = Newtonsoft.Json.JsonConvert.SerializeObject(albumname.ToArray<string>());
+                    var albumnames = Newtonsoft.Json.JsonConvert.SerializeObject(albumname.ToArray<string>());
+                    var aname = Newtonsoft.Json.JsonConvert.SerializeObject(artistname);
                     var acovers = Newtonsoft.Json.JsonConvert.SerializeObject(albumimg.ToArray<string>());
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + "," + anames + ")", true);
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + "," + albumnames + "," + aname + ")", true);
                 }
             }
             else
