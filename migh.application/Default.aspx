@@ -279,11 +279,11 @@
                 </table>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <div id="coverdiv" class="panel panel-primary" style="display:none; text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+        <div id="coverdiv" class="panel panel-primary" style="display:none; text-align:center; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
             <table id="tableImg" style="text-align: center; width:100%"">
                 <tr>
                     <td>
-                        <ul id="albumlist" class="images" style="background-size:contain; background-color:#181818; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+                        <ul id="albumlist" class="images" style="background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
                         </ul>
                     </td>
                 </tr>
@@ -575,7 +575,8 @@
                     $('#tdSearch').slideToggle();
                     document.getElementById('txtSearch').focus();
                 }else{
-                    hideSearchBar();
+                    document.getElementById('txtSearch').focus();
+                    //hideSearchBar();
                 }
                 unfade(btnOpenSearch);
             };
@@ -632,8 +633,17 @@
                             navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
                             navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
                         }
+                        hideSearchBar();
                         //updatemetadata();
                     }
+                }
+                if (target.getAttribute('type') == 'album') {
+                    unfade(target);
+                    hideSearchBar();
+                }
+                if (target.getAttribute('type') == 'artist') {
+                    unfade(target);
+                    hideSearchBar();
                 }
                 //if (target.getAttribute('type') == 'album') {
                 //    PageMethods.GetAlbum(target.id, fill);
@@ -838,6 +848,7 @@
                 }
             }
             function updatemetadata() {
+                
                 //PageMethods.getCurrentSongTitle(title);
                 //var _title = '';
                 //var _album = '';
@@ -1015,218 +1026,222 @@
             //    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
             //}
             function Search(str) {
-                $('#resultdiv').slideUp();
-                var Artist = '';
-                var Album = '';
-                var Track = '';
-                PageMethods.SearchArtist(str, OnSucceeded);
-                function OnSucceeded(response) {
-                    Artist = JSON.parse(response);
-                    PageMethods.SearchAlbum(str, OnSucceeded);
+                $('#resultdiv').slideUp("fast", fillResult());
+                
+                function fillResult() {
+                    var Artist = '';
+                    var Album = '';
+                    var Track = '';
+                    PageMethods.SearchArtist(str, OnSucceeded);
                     function OnSucceeded(response) {
-                        Album = JSON.parse(response);
-                        PageMethods.SearchTrack(str, OnSucceeded, OnFailed);
-                        function OnFailed(response) {
-                            var list = document.getElementById('searchlist');
-                            list.innerHTML = '';
-                            if(Artist.length > 0) {
-                                var label = document.createElement('label');
-                                label.className = 'searchtext';
-                                label.innerText = 'Artistas';
-                                //list.appendChild(label);
-                                for (i = 0; i < Artist.length; i++) {
-                                    var div = document.createElement('div');
-                                    var name = document.createElement('label');
-                                    name.className = 'searchtext';
-                                    name.innerHTML = Artist[i].name;
-                                    name.style.color = '#97A09B';
-                                    div.className = 'searchitem';
-                                    var img = document.createElement('img');
-                                    img.id = Artist[i].id;
-                                    img.setAttribute('type', 'artist');
-                                    img.style.marginRight = '5px';
-                                    img.src = 'images/artist.png';
-                                    img.height = 30;
-                                    img.width = 30;
-                                    img.style.verticalAlign = 'middle';
-                                    div.appendChild(img);
-                                    div.appendChild(name);
-                                    div.setAttribute('type', 'artist');
-                                    list.appendChild(div);
-                                }
-                            }
-                            
-                            if(Album.length > 0) {
-                                var label = document.createElement('label');
-                                label.className = 'searchtext';
-                                label.innerText = 'Álbumes';
-                                //list.appendChild(label);
-                                for (i = 0; i < Album.length; i++) {
-                                    var div = document.createElement('div');
-                                    var name = document.createElement('label');
-                                    var nameart = document.createElement('label');
-                                    name.className = 'searchtext';
-                                    nameart.className = 'searchtext';
-                                    name.innerHTML = Album[i].name;
-                                    nameart.innerHTML = " - " + Album[i].artist;
-                                    div.className = 'searchitem';
-                                    nameart.style.color = '#97A09B';
-                                    var img = document.createElement('img');
-                                    img.id = Album[i].id;
-                                    img.setAttribute('type', 'album');
-                                    img.src = 'images/album.png';
-                                    img.style.marginRight = '5px';
-                                    img.height = 30;
-                                    img.width = 30;
-                                    img.style.verticalAlign = 'middle';
-                                    div.appendChild(img);
-                                    div.appendChild(name);
-                                    div.appendChild(nameart);
-                                    list.appendChild(div);
-                                }
-                            }
-                            if(Track.length > 0) {
-                                var label = document.createElement('label');
-                                label.className = 'searchtext';
-                                label.innerText = 'Canciones';
-                                //list.appendChild(label);
-                                for (i = 0; i < Track.length; i++) {
-                                    var div = document.createElement('div');
-                                    var name = document.createElement('label');
-                                    var nameart = document.createElement('label');
-                                    var br = document.createElement('br');
-                                    name.className = 'searchtext';
-                                    nameart.className = 'searchtext';
-                                    nameart.style.color = '#97A09B';
-                                    name.innerHTML = Track[i].name + " - " + Track[i].album;
-                                    nameart.innerHTML = Track[i].artist;
-                                    div.className = 'searchitem';
-                                    var img = document.createElement('img');
-                                    img.id = Track[i].id;
-                                    img.setAttribute('type', 'track');
-                                    img.src = 'images/song.png';
-                                    img.style.marginRight = '5px';
-                                    img.height = 30;
-                                    img.width = 30;
-                                    img.style.verticalAlign = 'middle';
-                                    div.appendChild(img);
-                                    div.appendChild(name);
-                                    div.appendChild(br);
-                                    div.appendChild(nameart);
-                                    list.appendChild(div);
-                                }
-                            }
-                            
-                            if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
-                                $('#resultdiv').slideDown();
-                            } else {
-                                var label = document.createElement('label');
-                                label.innerHTML = 'No hay resultados';
-                                label.className = 'searchtext';
-                                list.appendChild(label);
-                                $('#resultdiv').slideDown();
-                            }
-                        }
+                        Artist = JSON.parse(response);
+                        PageMethods.SearchAlbum(str, OnSucceeded);
                         function OnSucceeded(response) {
-                            Track = JSON.parse(response);
-                            var list = document.getElementById('searchlist');
-                            list.innerHTML = '';
-                            if(Artist.length > 0) {
-                                var label = document.createElement('label');
-                                label.className = 'searchtext';
-                                label.innerText = 'Artistas';
-                                //list.appendChild(label);
-                                for (i = 0; i < Artist.length; i++) {
-                                    var div = document.createElement('div');
-                                    var name = document.createElement('label');
-                                    name.className = 'searchtext';
-                                    name.innerHTML = Artist[i].name;
-                                    name.style.color = '#97A09B';
-                                    div.className = 'searchitem';
-                                    var img = document.createElement('img');
-                                    img.id = Artist[i].id;
-                                    img.setAttribute('type', 'artist');
-                                    img.style.marginRight = '5px';
-                                    img.src = 'images/artist.png';
-                                    img.height = 30;
-                                    img.width = 30;
-                                    img.style.verticalAlign = 'middle';
-                                    div.appendChild(img);
-                                    div.appendChild(name);
-                                    div.setAttribute('type', 'artist');
-                                    list.appendChild(div);
+                            Album = JSON.parse(response);
+                            PageMethods.SearchTrack(str, OnSucceeded, OnFailed);
+                            function OnFailed(response) {
+                                var list = document.getElementById('searchlist');
+                                list.innerHTML = '';
+                                if(Artist.length > 0) {
+                                    var label = document.createElement('label');
+                                    label.className = 'searchtext';
+                                    label.innerText = 'Artistas';
+                                    list.appendChild(label);
+                                    for (i = 0; i < Artist.length; i++) {
+                                        var div = document.createElement('div');
+                                        var name = document.createElement('label');
+                                        name.className = 'searchtext';
+                                        name.innerHTML = Artist[i].name;
+                                        name.style.color = '#97A09B';
+                                        div.className = 'searchitem';
+                                        var img = document.createElement('img');
+                                        img.id = Artist[i].id;
+                                        img.setAttribute('type', 'artist');
+                                        img.style.marginRight = '5px';
+                                        img.src = 'images/artist.png';
+                                        img.height = 30;
+                                        img.width = 30;
+                                        img.style.verticalAlign = 'middle';
+                                        div.appendChild(img);
+                                        div.appendChild(name);
+                                        list.appendChild(div);
+                                    }
                                 }
-                            }
                             
-                            if(Album.length > 0) {
-                                var label = document.createElement('label');
-                                label.className = 'searchtext';
-                                label.innerText = 'Álbumes';
-                                //list.appendChild(label);
-                                for (i = 0; i < Album.length; i++) {
-                                    var div = document.createElement('div');
-                                    var name = document.createElement('label');
-                                    var nameart = document.createElement('label');
-                                    name.className = 'searchtext';
-                                    nameart.className = 'searchtext';
-                                    name.innerHTML = Album[i].name;
-                                    nameart.innerHTML = " - " + Album[i].artist;
-                                    div.className = 'searchitem';
-                                    nameart.style.color = '#97A09B';
-                                    var img = document.createElement('img');
-                                    img.id = Album[i].id;
-                                    img.setAttribute('type', 'album');
-                                    img.src = 'images/album.png';
-                                    img.style.marginRight = '5px';
-                                    img.height = 30;
-                                    img.width = 30;
-                                    img.style.verticalAlign = 'middle';
-                                    div.appendChild(img);
-                                    div.appendChild(name);
-                                    div.appendChild(nameart);
-                                    list.appendChild(div);
+                                if(Album.length > 0) {
+                                    var label = document.createElement('label');
+                                    label.className = 'searchtext';
+                                    label.innerText = 'Álbumes';
+                                    list.appendChild(label);
+                                    for (i = 0; i < Album.length; i++) {
+                                        var div = document.createElement('div');
+                                        var name = document.createElement('label');
+                                        var nameart = document.createElement('label');
+                                        name.className = 'searchtext';
+                                        nameart.className = 'searchtext';
+                                        name.innerHTML = Album[i].name;
+                                        nameart.innerHTML = " - " + Album[i].artist;
+                                        div.className = 'searchitem';
+                                        nameart.style.color = '#97A09B';
+                                        var img = document.createElement('img');
+                                        img.id = Album[i].id;
+                                        img.setAttribute('type', 'album');
+                                        img.src = 'images/album.png';
+                                        img.style.marginRight = '5px';
+                                        img.height = 30;
+                                        img.width = 30;
+                                        img.style.verticalAlign = 'middle';
+                                        div.appendChild(img);
+                                        div.appendChild(name);
+                                        div.appendChild(nameart);
+                                        list.appendChild(div);
+                                    }
                                 }
-                            }
-                            if(Track.length > 0) {
-                                var label = document.createElement('label');
-                                label.className = 'searchtext';
-                                label.innerText = 'Canciones';
-                                //list.appendChild(label);
-                                for (i = 0; i < Track.length; i++) {
-                                    var div = document.createElement('div');
-                                    var name = document.createElement('label');
-                                    var nameart = document.createElement('label');
-                                    var br = document.createElement('br');
-                                    name.className = 'searchtext';
-                                    nameart.className = 'searchtext';
-                                    nameart.style.color = '#97A09B';
-                                    name.innerHTML = Track[i].name + " - " + Track[i].album;
-                                    nameart.innerHTML = Track[i].artist;
-                                    div.className = 'searchitem';
-                                    var img = document.createElement('img');
-                                    img.id = Track[i].id;
-                                    img.setAttribute('type', 'track');
-                                    img.src = 'images/song.png';
-                                    img.style.marginRight = '5px';
-                                    img.height = 30;
-                                    img.width = 30;
-                                    img.style.verticalAlign = 'middle';
-                                    div.appendChild(img);
-                                    div.appendChild(name);
-                                    div.appendChild(br);
-                                    div.appendChild(nameart);
-                                    list.appendChild(div);
+                                if(Track.length > 0) {
+                                    var label = document.createElement('label');
+                                    label.className = 'searchtext';
+                                    label.innerText = 'Canciones';
+                                    list.appendChild(label);
+                                    for (i = 0; i < Track.length; i++) {
+                                        var div = document.createElement('div');
+                                        var name = document.createElement('label');
+                                        var nameart = document.createElement('label');
+                                        var br = document.createElement('br');
+                                        name.className = 'searchtext';
+                                        nameart.className = 'searchtext';
+                                        nameart.style.color = '#97A09B';
+                                        name.innerHTML = Track[i].name + " - " + Track[i].album;
+                                        nameart.innerHTML = Track[i].artist;
+                                        div.className = 'searchitem';
+                                        var img = document.createElement('img');
+                                        img.id = Track[i].id;
+                                        img.setAttribute('type', 'track');
+                                        img.src = 'images/song.png';
+                                        img.style.marginRight = '5px';
+                                        img.height = 30;
+                                        img.width = 30;
+                                        img.style.verticalAlign = 'middle';
+                                        div.appendChild(img);
+                                        div.appendChild(name);
+                                        div.appendChild(br);
+                                        div.appendChild(nameart);
+                                        list.appendChild(div);
+                                    }
                                 }
-                            }
                             
-                            if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
-                                $('#resultdiv').slideDown();
-                            } else {
-                                var label = document.createElement('label');
-                                label.innerHTML = 'No hay resultados';
-                                label.className = 'searchtext';
-                                list.appendChild(label);
-                                $('#resultdiv').slideDown();
+                                if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
+                                    $('#resultdiv').slideDown();
+                                    $("#resultdiv").animate({ scrollTop: 0 }, "fast");
+                                } else {
+                                    var label = document.createElement('label');
+                                    label.innerHTML = 'No hay resultados';
+                                    label.className = 'searchtext';
+                                    list.appendChild(label);
+                                    $('#resultdiv').slideDown();
+                                }
+                            }
+                            function OnSucceeded(response) {
+                                Track = JSON.parse(response);
+                                var list = document.getElementById('searchlist');
+                                list.innerHTML = '';
+                                if(Artist.length > 0) {
+                                    var label = document.createElement('label');
+                                    label.className = 'searchtext';
+                                    label.innerText = 'Artistas';
+                                    list.appendChild(label);
+                                    for (i = 0; i < Artist.length; i++) {
+                                        var div = document.createElement('div');
+                                        var name = document.createElement('label');
+                                        name.className = 'searchtext';
+                                        name.innerHTML = Artist[i].name;
+                                        name.style.color = '#97A09B';
+                                        div.className = 'searchitem';
+                                        var img = document.createElement('img');
+                                        img.id = Artist[i].id;
+                                        img.setAttribute('type', 'artist');
+                                        img.style.marginRight = '5px';
+                                        img.src = 'images/artist.png';
+                                        img.height = 30;
+                                        img.width = 30;
+                                        img.style.verticalAlign = 'middle';
+                                        div.appendChild(img);
+                                        div.appendChild(name);
+                                        div.setAttribute('type', 'artist');
+                                        list.appendChild(div);
+                                    }
+                                }
+                            
+                                if(Album.length > 0) {
+                                    var label = document.createElement('label');
+                                    label.className = 'searchtext';
+                                    label.innerText = 'Álbumes';
+                                    list.appendChild(label);
+                                    for (i = 0; i < Album.length; i++) {
+                                        var div = document.createElement('div');
+                                        var name = document.createElement('label');
+                                        var nameart = document.createElement('label');
+                                        name.className = 'searchtext';
+                                        nameart.className = 'searchtext';
+                                        name.innerHTML = Album[i].name;
+                                        nameart.innerHTML = " - " + Album[i].artist;
+                                        div.className = 'searchitem';
+                                        nameart.style.color = '#97A09B';
+                                        var img = document.createElement('img');
+                                        img.id = Album[i].id;
+                                        img.setAttribute('type', 'album');
+                                        img.src = 'images/album.png';
+                                        img.style.marginRight = '5px';
+                                        img.height = 30;
+                                        img.width = 30;
+                                        img.style.verticalAlign = 'middle';
+                                        div.appendChild(img);
+                                        div.appendChild(name);
+                                        div.appendChild(nameart);
+                                        list.appendChild(div);
+                                    }
+                                }
+                                if(Track.length > 0) {
+                                    var label = document.createElement('label');
+                                    label.className = 'searchtext';
+                                    label.innerText = 'Canciones';
+                                    list.appendChild(label);
+                                    for (i = 0; i < Track.length; i++) {
+                                        var div = document.createElement('div');
+                                        var name = document.createElement('label');
+                                        var nameart = document.createElement('label');
+                                        var br = document.createElement('br');
+                                        name.className = 'searchtext';
+                                        nameart.className = 'searchtext';
+                                        nameart.style.color = '#97A09B';
+                                        name.innerHTML = Track[i].name + " - " + Track[i].album;
+                                        nameart.innerHTML = Track[i].artist;
+                                        div.className = 'searchitem';
+                                        var img = document.createElement('img');
+                                        img.id = Track[i].id;
+                                        img.setAttribute('type', 'track');
+                                        img.src = 'images/song.png';
+                                        img.style.marginRight = '5px';
+                                        img.height = 30;
+                                        img.width = 30;
+                                        img.style.verticalAlign = 'middle';
+                                        div.appendChild(img);
+                                        div.appendChild(name);
+                                        div.appendChild(br);
+                                        div.appendChild(nameart);
+                                        list.appendChild(div);
+                                    }
+                                }
+                            
+                                if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
+                                    $('#resultdiv').slideDown();
+                                    $("#resultdiv").animate({ scrollTop: 0 }, "fast");
+                                } else {
+                                    var label = document.createElement('label');
+                                    label.innerHTML = 'No hay resultados';
+                                    label.className = 'searchtext';
+                                    list.appendChild(label);
+                                    $('#resultdiv').slideDown();
+                                }
                             }
                         }
                     }
