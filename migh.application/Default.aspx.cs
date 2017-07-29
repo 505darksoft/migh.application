@@ -8,6 +8,7 @@ using migh.api;
 using System.Web.Services;
 using System.Net;
 using JsonTools;
+using System.Web.Script.Serialization;
 
 namespace migh.application
 {
@@ -507,10 +508,11 @@ namespace migh.application
         [WebMethod]
         public static string SearchArtist(string name)
         {
+            //IEnumerable<Artist> l = lib.artist_list.Where(a => a.name.Contains(name.ToString().ToLower()));
             List<strArtist> list = new List<strArtist>();
             foreach(Artist art in lib.artist_list)
             {
-                if(art.name.ToLower().Contains(name.ToLower()))
+                if(art.name.ToLower().Contains(name.ToString().ToLower()))
                 {
                     strArtist a = new strArtist();
                     a.id = art.id;
@@ -526,7 +528,7 @@ namespace migh.application
             List<strAlbum> list = new List<strAlbum>();
             foreach (Album alb in lib.album_list)
             {
-                if (alb.name.ToLower().Contains(name.ToLower()))
+                if (alb.name.ToLower().Contains(name.ToString().ToLower()))
                 {
                     Artist art = Artist.get(lib.artist_list, alb.artist_id);
                     strAlbum a = new strAlbum();
@@ -545,7 +547,7 @@ namespace migh.application
             List<strTrack> list = new List<strTrack>();
             foreach (Song song in lib.song_list)
             {
-                if (song.name.ToLower().Contains(name.ToLower()))
+                if (song.name.ToLower().Contains(name.ToString().ToLower()))
                 {
                     Artist art = Artist.get(lib.artist_list, song.artist_id);
                     Album alb = Album.get(lib.album_list, song.album_id);

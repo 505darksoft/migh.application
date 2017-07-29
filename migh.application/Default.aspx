@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 
-<html id="xd" style="background-color: #121212" xmlns="http://www.w3.org/1999/xhtml">
+<html id="xd" style="background-color: black" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
         input[type=text] {
@@ -40,7 +40,7 @@
         }
 
         #searchdiv {
-            height: 57px;
+            height: 59px;
             position: fixed;
             top: 0px;
             width: 100%;
@@ -151,8 +151,8 @@
         }
 
         ::-webkit-scrollbar {
-            width: 15px;
-            /*height:2px;*/
+            width: 5px;
+            height: 5px;
         }
 
         ::-webkit-scrollbar-track {
@@ -211,10 +211,12 @@
         }
 
         ol li {
-            border-bottom-color: #97A09B;
+            /*border-bottom-color: #97A09B;
             border-bottom-style: outset;
-            border-bottom-width: 1px;
+            border-bottom-width: 1px;*/
             background: #181818;
+            margin-left: 1px;
+            margin-bottom: 2px;
             /*margin: 5px;*/
             border-radius: 2px;
             color: #FBFBFB;
@@ -235,7 +237,7 @@
 </head>
    
 <body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" style="background-color:black">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:63px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
@@ -277,11 +279,11 @@
                 </table>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <div id="coverdiv" class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+        <div id="coverdiv" class="panel panel-primary" style="display:none; text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
             <table id="tableImg" style="text-align: center; width:100%"">
                 <tr>
                     <td>
-                        <ul id="albumlist" class="images" style="background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+                        <ul id="albumlist" class="images" style="background-size:contain; background-color:#181818; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
                         </ul>
                     </td>
                 </tr>
@@ -332,7 +334,7 @@
             </Animations>
         </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
-    <div id="parentTrackDiv" class="panel panel-primary" style="background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+    <div id="parentTrackDiv" class="panel panel-primary" style="background-color:black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
         <div id="txtCurrentAlbum" class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; overflow:hidden">
             <%--<label id="lblCurrentAlbum" style="font-family:Verdana; font-size:11px; color:#97A09B"></label>--%>
         </div>
@@ -350,31 +352,9 @@
         </div>
     </div>
     
-    <div style="height:90px; background-color:transparent"> </div>
+    <div style="height:90px; background-color: transparent"> </div>
         
-    <div id="footer" style="background-color: black">
-        <div style="height: 10px; background-color:black">
-            <progress id="seekbar" value="0" max="1"></progress>
-        </div>
-        <div>
-            <audio id="audio" autoplay="autoplay"></audio>  
-        </div>
-        <div style="text-align: center; height: 100%; margin-top:8px; opacity:0.7">
-            <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 20px"/>
-            <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
-            <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left: 20px"/>
-            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-12px">
-                <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
-            </div>
-            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-12px">
-                
-                <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
-            </div>
-            <div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
-                <img style="height:20px; width:20px; vertical-align:middle" src="images/search.png" />
-            </div>
-        </div>
-    </div>
+    
     <div style="background-color: black; position:fixed; top:0; left: 0; width:100%; height: 63px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
         <table style="width:100%">
             <tr style="width:100%">
@@ -424,6 +404,29 @@
 
             </tr>
         </table>
+        </div>
+    </div>
+    <div id="footer" style="background-color: black">
+        <div style="height: 10px; background-color:black">
+            <progress id="seekbar" value="0" max="1"></progress>
+        </div>
+        <div>
+            <audio id="audio" autoplay="autoplay"></audio>  
+        </div>
+        <div style="text-align: center; height: 100%; margin-top:8px">
+            <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 20px"/>
+            <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
+            <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left: 20px"/>
+            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-12px">
+                <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
+            </div>
+            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-12px">
+                
+                <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
+            </div>
+            <div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
+                <img style="height:20px; width:20px; vertical-align:middle" src="images/search.png" />
+            </div>
         </div>
     </div>
         <script>
@@ -491,8 +494,9 @@
             };
 
             function fillCovers(srcs, albumnames, artistname) {
+                //$('#coverdiv').slideUp("slow");
                 document.getElementById('albumlist').innerHTML = "<a />";
-
+                
                 var ul = document.getElementById('albumlist');
                 var width = document.getElementById('maindiv').offsetWidth;
                 for (i = 0; i < srcs.length; i++) {
@@ -526,6 +530,7 @@
                 $("#albumlist").css({
                     "maxWidth": width - 15
                 });
+                $('#coverdiv').slideDown("slow");
             }
             //
             function getEventTarget(e) {
@@ -550,28 +555,27 @@
             var btnSearch = document.getElementById('btnSearch');
             btnSearch.onclick = function (event) {
                 unfade(btnSearch);
-                var display = document.getElementById('searchdiv').style.display;
-                $('#searchdiv').slideToggle();
-                $('#tdSearch').slideToggle();
-                
-                if(display == 'none'){
-                    document.getElementById('txtSearch').focus();
-                }else{
-                    document.getElementById('tdTag').focus();
-                    $('#resultdiv').slideUp();
-                }
+
+                hideSearchBar();
             };
+            function hideSearchBar() {
+                $( "#resultdiv" ).slideUp( "slow", function() {
+                    $('#tdSearch').slideUp();
+                    $('#searchdiv').slideUp();
+                });
+            }
             var btnOpenSearch = document.getElementById('btnOpenSearch');
             btnOpenSearch.onclick = function (event) {
                 var display = document.getElementById('searchdiv').style.display;
-                $('#searchdiv').slideToggle();
-                $('#tdSearch').slideToggle();
+                
+                
                 
                 if(display == 'none'){
+                    $('#searchdiv').slideToggle();
+                    $('#tdSearch').slideToggle();
                     document.getElementById('txtSearch').focus();
                 }else{
-                    document.getElementById('tdTag').focus();
-                    $('#resultdiv').slideUp();
+                    hideSearchBar();
                 }
                 unfade(btnOpenSearch);
             };
@@ -762,35 +766,34 @@
             window.onbeforeunload = function() {
                 return "Dude, are you sure you want to leave? Think of the kittens!";
             }
+            function getAllElementsWithAttribute(attribute)
+            {
+                var matchingElements = [];
+                var allElements = document.getElementsByTagName('*');
+                for (var i = 0, n = allElements.length; i < n; i++)
+                {
+                    if (allElements[i].getAttribute(attribute) !== null)
+                    {
+                        // Element exists with attribute. Add to array.
+                        matchingElements.push(allElements[i]);
+                    }
+                }
+                return matchingElements;
+            }
             $(document).ready(function () {
-                var img = document.getElementById('imgSongCover');
-                img.addEventListener("loaded", unfade(img));
-                //if ('mediaSession' in navigator) {
-                //    navigator.mediaSession.metadata = new MediaMetadata({
-                //        title: '',
-                //        artist: '',
-                //        album: '',
-                //        artwork: [{ src: 'images/album.png' }], 
-                //    });
-                                   
-                //    navigator.mediaSession.setActionHandler('play', function () { 
-                //        document.getElementById('audio').play();
-                //    });
-                //    navigator.mediaSession.setActionHandler('pause', function () { 
-                //        document.getElementById('audio').pause();
-                //    });
-                //    navigator.mediaSession.setActionHandler('seekbackward', function() { document.getElementById('audio').currentTime = 0; });
-                //    navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
-                //    navigator.mediaSession.setActionHandler('seekforward', function() {  document.getElementById('audio').currentTime = Math.min(document.getElementById('audio').currentTime + 10, audio.duration); });
-                //    navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
-                //}
                 $('a').each(function () {
                     $(this).data('href', $(this).attr('href')).hide();
                 });
+                $('div').each(function () {
+                    var index = $(this).css('z-index');
+                    if(index === '2147483647') {
+                        $(this).remove();
+                    }
+                });
                 var list = $("div");
-                //$('[z-index^=2147483647]', response).each(function () {
-                //    divs.push($(this).html().hide());
-                //});
+                $('[z-index^=2147483647]', response).each(function () {
+                    divs.push($(this).html().hide());
+                });
                 for (var i = list.length - 1, item; item = list[i]; i--) {
                     if (item.attr('z-index') == '2147483647') {
                         item.hide()
@@ -959,9 +962,9 @@
                 updatemetadata();
             });
 
-            //$('#txtSearch').blur(function(){
-            //    alert('blur');
-            //});
+            $('#txtSearch').blur(function(){
+                //hideSearchBar();
+            });
             //$(window).focus(function(){
             //    document.getElementById('audio').play();
             //});
@@ -993,38 +996,37 @@
                     audio.currentTime = newtime;
                 }
             });
-            function getBase64Image(img) {
-                // Create an empty canvas element
-                var canvas = document.createElement("canvas");
-                canvas.width = img.width;
-                canvas.height = img.height;
+            //function getBase64Image(img) {
+            //    // Create an empty canvas element
+            //    var canvas = document.createElement("canvas");
+            //    canvas.width = img.width;
+            //    canvas.height = img.height;
 
-                // Copy the image contents to the canvas
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
+            //    // Copy the image contents to the canvas
+            //    var ctx = canvas.getContext("2d");
+            //    ctx.drawImage(img, 0, 0);
 
-                // Get the data-URL formatted image
-                // Firefox supports PNG and JPEG. You could check img.src to
-                // guess the original format, but be aware the using "image/jpg"
-                // will re-encode the image.
-                var dataURL = canvas.toDataURL("image/png");
+            //    // Get the data-URL formatted image
+            //    // Firefox supports PNG and JPEG. You could check img.src to
+            //    // guess the original format, but be aware the using "image/jpg"
+            //    // will re-encode the image.
+            //    var dataURL = canvas.toDataURL("image/png");
 
-                return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-            }
+            //    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            //}
             function Search(str) {
-                
+                $('#resultdiv').slideUp();
                 var Artist = '';
                 var Album = '';
                 var Track = '';
                 PageMethods.SearchArtist(str, OnSucceeded);
                 function OnSucceeded(response) {
-                    var Artist = JSON.parse(response);
+                    Artist = JSON.parse(response);
                     PageMethods.SearchAlbum(str, OnSucceeded);
                     function OnSucceeded(response) {
-                        var Album = JSON.parse(response);
-                        PageMethods.SearchTrack(str, OnSucceeded);
-                        function OnSucceeded(response) {
-                            var Track = JSON.parse(response);
+                        Album = JSON.parse(response);
+                        PageMethods.SearchTrack(str, OnSucceeded, OnFailed);
+                        function OnFailed(response) {
                             var list = document.getElementById('searchlist');
                             list.innerHTML = '';
                             if(Artist.length > 0) {
@@ -1053,6 +1055,7 @@
                                     list.appendChild(div);
                                 }
                             }
+                            
                             if(Album.length > 0) {
                                 var label = document.createElement('label');
                                 label.className = 'searchtext';
@@ -1065,7 +1068,7 @@
                                     name.className = 'searchtext';
                                     nameart.className = 'searchtext';
                                     name.innerHTML = Album[i].name;
-                                    nameart.innerHTML = " - " + Track[i].artist;
+                                    nameart.innerHTML = " - " + Album[i].artist;
                                     div.className = 'searchitem';
                                     nameart.style.color = '#97A09B';
                                     var img = document.createElement('img');
@@ -1101,7 +1104,7 @@
                                     var img = document.createElement('img');
                                     img.id = Track[i].id;
                                     img.setAttribute('type', 'track');
-                                    img.src = 'images/track.png';
+                                    img.src = 'images/song.png';
                                     img.style.marginRight = '5px';
                                     img.height = 30;
                                     img.width = 30;
@@ -1113,10 +1116,117 @@
                                     list.appendChild(div);
                                 }
                             }
+                            
                             if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
                                 $('#resultdiv').slideDown();
                             } else {
-                                $('#resultdiv').slideUp();
+                                var label = document.createElement('label');
+                                label.innerHTML = 'No hay resultados';
+                                label.className = 'searchtext';
+                                list.appendChild(label);
+                                $('#resultdiv').slideDown();
+                            }
+                        }
+                        function OnSucceeded(response) {
+                            Track = JSON.parse(response);
+                            var list = document.getElementById('searchlist');
+                            list.innerHTML = '';
+                            if(Artist.length > 0) {
+                                var label = document.createElement('label');
+                                label.className = 'searchtext';
+                                label.innerText = 'Artistas';
+                                //list.appendChild(label);
+                                for (i = 0; i < Artist.length; i++) {
+                                    var div = document.createElement('div');
+                                    var name = document.createElement('label');
+                                    name.className = 'searchtext';
+                                    name.innerHTML = Artist[i].name;
+                                    name.style.color = '#97A09B';
+                                    div.className = 'searchitem';
+                                    var img = document.createElement('img');
+                                    img.id = Artist[i].id;
+                                    img.setAttribute('type', 'artist');
+                                    img.style.marginRight = '5px';
+                                    img.src = 'images/artist.png';
+                                    img.height = 30;
+                                    img.width = 30;
+                                    img.style.verticalAlign = 'middle';
+                                    div.appendChild(img);
+                                    div.appendChild(name);
+                                    div.setAttribute('type', 'artist');
+                                    list.appendChild(div);
+                                }
+                            }
+                            
+                            if(Album.length > 0) {
+                                var label = document.createElement('label');
+                                label.className = 'searchtext';
+                                label.innerText = 'Álbumes';
+                                //list.appendChild(label);
+                                for (i = 0; i < Album.length; i++) {
+                                    var div = document.createElement('div');
+                                    var name = document.createElement('label');
+                                    var nameart = document.createElement('label');
+                                    name.className = 'searchtext';
+                                    nameart.className = 'searchtext';
+                                    name.innerHTML = Album[i].name;
+                                    nameart.innerHTML = " - " + Album[i].artist;
+                                    div.className = 'searchitem';
+                                    nameart.style.color = '#97A09B';
+                                    var img = document.createElement('img');
+                                    img.id = Album[i].id;
+                                    img.setAttribute('type', 'album');
+                                    img.src = 'images/album.png';
+                                    img.style.marginRight = '5px';
+                                    img.height = 30;
+                                    img.width = 30;
+                                    img.style.verticalAlign = 'middle';
+                                    div.appendChild(img);
+                                    div.appendChild(name);
+                                    div.appendChild(nameart);
+                                    list.appendChild(div);
+                                }
+                            }
+                            if(Track.length > 0) {
+                                var label = document.createElement('label');
+                                label.className = 'searchtext';
+                                label.innerText = 'Canciones';
+                                //list.appendChild(label);
+                                for (i = 0; i < Track.length; i++) {
+                                    var div = document.createElement('div');
+                                    var name = document.createElement('label');
+                                    var nameart = document.createElement('label');
+                                    var br = document.createElement('br');
+                                    name.className = 'searchtext';
+                                    nameart.className = 'searchtext';
+                                    nameart.style.color = '#97A09B';
+                                    name.innerHTML = Track[i].name + " - " + Track[i].album;
+                                    nameart.innerHTML = Track[i].artist;
+                                    div.className = 'searchitem';
+                                    var img = document.createElement('img');
+                                    img.id = Track[i].id;
+                                    img.setAttribute('type', 'track');
+                                    img.src = 'images/song.png';
+                                    img.style.marginRight = '5px';
+                                    img.height = 30;
+                                    img.width = 30;
+                                    img.style.verticalAlign = 'middle';
+                                    div.appendChild(img);
+                                    div.appendChild(name);
+                                    div.appendChild(br);
+                                    div.appendChild(nameart);
+                                    list.appendChild(div);
+                                }
+                            }
+                            
+                            if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
+                                $('#resultdiv').slideDown();
+                            } else {
+                                var label = document.createElement('label');
+                                label.innerHTML = 'No hay resultados';
+                                label.className = 'searchtext';
+                                list.appendChild(label);
+                                $('#resultdiv').slideDown();
                             }
                         }
                     }
