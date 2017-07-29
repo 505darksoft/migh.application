@@ -229,6 +229,8 @@
         }
     </style>
     <script src="js/color-thief.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="js/jquery.fracs-0.15.0.js"></script>
     <link rel="shortcut icon" type="image/png" href="images/music-player.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -791,6 +793,18 @@
                 return matchingElements;
             }
             $(document).ready(function () {
+                //var zip = new JSZip()
+                //zip.file('hi.txt', 'Hi there')
+
+                //var xhr = new XMLHttpRequest();
+                //xhr.onload = function() {
+                //    zip.file('jquery.min.js', this.responseText)
+                //    var downloadFile = zip.generate({type:"blob"});
+                //    saveAs(downloadFile, 'test.zip')
+                //}
+                //xhr.open('get', 'https://raw.githubusercontent.com/505darksoft/M/master/Arctic-Monkeys/Favourite-Worst-Nightmare/02%20Teddy%20Picker.m4a')
+                //xhr.open('get', 'https://raw.githubusercontent.com/505darksoft/M/master/Arctic-Monkeys/Suck-It-And-See/03%20Brick%20By%20Brick.m4a')
+                //xhr.send()
                 $('a').each(function () {
                     $(this).data('href', $(this).attr('href')).hide();
                 });

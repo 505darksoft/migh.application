@@ -83,7 +83,7 @@ namespace migh.application
                     //        }
                     //    }
                     //}
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "cleansomee()", true);
+                    //ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "cleansomee()", true);
                 }
                 catch { }
             }
@@ -94,13 +94,23 @@ namespace migh.application
                 if (Session["user"] == null || lib.artist_list.Count == 0)
                 {
                     string su = "ftp://ftp.drivehq.com/migh.lib";
+                    string su_alt = "https://raw.githubusercontent.com/505darksoft/migh.admin/master/migh.admin/bin/Debug/migh.lib";
                     string u = "505darksoft";
                     string p = "poder123";
 
                     lib = new Library(su, u, p);
 
                     string username = "Dark";
-                    user = lib.user_list.Single(us => us.name.ToLower() == username.ToLower());
+                    try
+                    {
+                        user = lib.user_list.Single(us => us.name.ToLower() == username.ToLower());
+                    }
+                    catch
+                    {
+                        lib = new Library(su_alt, u, p);
+                        user = lib.user_list.Single(us => us.name.ToLower() == username.ToLower());
+                    }
+                    
                     Session.Add("user", user);
                     listArtists.SelectedIndex = 0;
                 }
