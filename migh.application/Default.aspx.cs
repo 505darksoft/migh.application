@@ -83,7 +83,7 @@ namespace migh.application
                     //        }
                     //    }
                     //}
-                    //ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "cleansomee()", true);
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "cleansomee()", true);
                 }
                 catch { }
             }
@@ -95,7 +95,7 @@ namespace migh.application
                 {
                     string su = "ftp://ftp.drivehq.com/migh.lib";
                     string su_alt = "https://raw.githubusercontent.com/505darksoft/migh.admin/master/migh.admin/bin/Debug/migh.lib";
-                    string u = "505darksoft";
+                    string u = "505darksoft2";
                     string p = "poder123";
 
                     lib = new Library(su, u, p);
