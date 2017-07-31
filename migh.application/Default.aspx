@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 
-<html id="xd" style="background-color: black" xmlns="http://www.w3.org/1999/xhtml">
+<html id="xd" style="background-color: #282828" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
         input[type=text] {
@@ -164,7 +164,7 @@
         }
 
         ::-webkit-scrollbar-button {
-            background-color: black;
+            /*background-color: black;*/
         }
 
         ::-webkit-scrollbar-corner {
@@ -211,21 +211,23 @@
         }
 
         ol li {
-            /*border-bottom-color: #97A09B;
+            border-bottom-color: #181818;
             border-bottom-style: outset;
-            border-bottom-width: 1px;*/
-            background: #181818;
+            border-bottom-width: 2px;
+            border-bottom-left-radius: 1px;
+            border-bottom-right-radius: 1px;
+            /*background: #181818;*/
             margin-left: 1px;
-            margin-bottom: 2px;
+            margin-bottom: 15px;
             /*margin: 5px;*/
             border-radius: 2px;
             color: #FBFBFB;
             font-family: Verdana;
             font-size: 10px;
             background-clip: padding-box;
-            height: 40px;
-            line-height: 40px;
-            padding-left: 10px;
+            /*height: 40px;
+            line-height: 50px;*/
+            /*padding-left: 10px;*/
         }
     </style>
     <script src="js/color-thief.min.js"></script>
@@ -239,7 +241,7 @@
 </head>
    
 <body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
-    <form id="form1" runat="server" style="background-color:black">
+    <form id="form1" runat="server" style="background-color:#282828">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:63px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
@@ -336,7 +338,7 @@
             </Animations>
         </ajaxToolkit:UpdatePanelAnimationExtender>
     </div>
-    <div id="parentTrackDiv" class="panel panel-primary" style="background-color:black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+    <div id="parentTrackDiv" class="panel panel-primary" style="background-color:#282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
         <div id="txtCurrentAlbum" class="panel panel-primary" style="text-align:center; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; overflow:hidden">
             <%--<label id="lblCurrentAlbum" style="font-family:Verdana; font-size:11px; color:#97A09B"></label>--%>
         </div>
@@ -354,16 +356,16 @@
         </div>
     </div>
     
-    <div style="height:90px; background-color: transparent"> </div>
+    <div style="height:90px; background-color: #282828; visibility:hidden"> </div>
         
     
-    <div style="background-color: black; position:fixed; top:0; left: 0; width:100%; height: 63px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
-        <table style="width:100%">
-            <tr style="width:100%">
+    <div id="topbar" style="display:none; background-color: black; position:fixed; top:0; left: 0; width:100%; height: 63px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
+        <table style="border-spacing:0px; width:100%; height:100%">
+            <tr style="width:100%; vertical-align:middle">
                 <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
-                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:57px; display:none; width:57px; vertical-align:middle" src="images/default_album.png" />
+                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:61px; display:none; width:61px; vertical-align:middle" src="images/default_album.png" />
                 </td>
-                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:57px">
+                <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:100%">
                     <label id="lblSongTitle" style="font-family:Verdana; font-size:10px; color:#FBFBFB">Título</label>
                     <br />
                     <label id="lblSongArtist" style="font-family:Verdana; font-size:10px; color:#97A09B">Artista</label>
@@ -415,16 +417,15 @@
         <div>
             <audio id="audio" autoplay="autoplay"></audio>  
         </div>
-        <div style="text-align: center; height: 100%; margin-top:8px">
+        <div style="text-align: center; opacity:0.7; height: 100%; margin-top:8px">
             <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 20px"/>
             <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
             <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left: 20px"/>
-            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-12px">
-                <label id="currentTime" style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
+            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-16px">
+                <label id="currentTime" style="font-family: verdana; font-size: 8px; color: #FBFBFB">00:00</label>
             </div>
-            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-12px">
-                
-                <label id="duration"  style="font-family: verdana; font-size: 11px; color: #FBFBFB">00:00</label>
+            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-16px">
+                <label id="duration"  style="font-family: verdana; font-size: 8px; color: #FBFBFB">00:00</label>
             </div>
             <div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
                 <img style="height:20px; width:20px; vertical-align:middle" src="images/search.png" />
@@ -467,6 +468,7 @@
                     document.getElementById('tdImg').style.display = 'none';
                     var td = document.getElementById('tdTag');
                     td.style.textAlign = 'center';
+                    td.style.verticalAlign = 'middle';
                 }
                 if (document.body.scrollTop === 0) {
                     //$("#coverdiv").slideDown();
@@ -764,13 +766,16 @@
                     img.height = 24;
                     img.style.verticalAlign = 'middle';
                     //img.style.marginBottom = '-8px';
+                    li.style.verticalAlign = 'middle';
                     img.style.marginRight = '10px';
                     img.style.styleFloat = 'left';
                     li.setAttribute('id', idlist[i]);
                     li.appendChild(img);
-                    li.appendChild(document.createTextNode('     ' + (i+1) + '. ' + tracklist[i]));
+                    var label = document.createElement('label');
+                    label.innerHTML = (i+1) + '. ' + tracklist[i];
+                    li.appendChild(label);
                     li.style.overflow = 'hidden';
-                    
+                    li.style.verticalAlign = 'middle';
                     ol.appendChild(li);
                 }
                 //$("#tracklist").slideDown();
@@ -943,6 +948,7 @@
                 }
             }
             function setTitle(response) {
+                $('#topbar').slideDown();
                 var lbl = document.getElementById('lblSongTitle');
                 lbl.innerText = response;
                 unfade(lbl);
