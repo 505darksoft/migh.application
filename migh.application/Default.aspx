@@ -211,11 +211,11 @@
         }
 
         ol li {
-            border-bottom-color: #181818;
+            /*border-bottom-color: #181818;
             border-bottom-style: outset;
             border-bottom-width: 2px;
             border-bottom-left-radius: 1px;
-            border-bottom-right-radius: 1px;
+            border-bottom-right-radius: 1px;*/
             /*background: #181818;*/
             margin-left: 1px;
             margin-bottom: 15px;
@@ -861,6 +861,7 @@
                     PageMethods.getCurrentSongTitle(setTitle);
                     PageMethods.getCurrentSongArtist(setArtist);
                     PageMethods.getCurrentSongAlbum(setAlbum);
+                    audio.src.t
                     audio.src = response;
                     audio.play()
                     .then(_ => updatemetadata());
