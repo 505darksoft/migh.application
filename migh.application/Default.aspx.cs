@@ -518,28 +518,29 @@ namespace migh.application
         [WebMethod]
         public static string SearchArtist(string name)
         {
-            //IEnumerable<Artist> l = lib.artist_list.Where(a => a.name.Contains(name.ToString().ToLower()));
+            IEnumerable<Artist> l = lib.artist_list.Where(a => a.name.ToLower().Contains(name.ToString().ToLower()));
             List<strArtist> list = new List<strArtist>();
-            foreach(Artist art in lib.artist_list)
+            foreach(Artist art in l)
             {
-                if(art.name.ToLower().Contains(name.ToString().ToLower()))
-                {
+                //if(art.name.ToLower().Contains(name.ToString().ToLower()))
+                //{
                     strArtist a = new strArtist();
                     a.id = art.id;
                     a.name = art.name;
                     list.Add(a);
-                }
+                //}
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<strArtist>());
         }
         [WebMethod]
         public static string SearchAlbum(string name)
         {
+            IEnumerable<Album> l = lib.album_list.Where(a => a.name.ToLower().Contains(name.ToString().ToLower()));
             List<strAlbum> list = new List<strAlbum>();
-            foreach (Album alb in lib.album_list)
+            foreach (Album alb in l)
             {
-                if (alb.name.ToLower().Contains(name.ToString().ToLower()))
-                {
+                //if (alb.name.ToLower().Contains(name.ToString().ToLower()))
+                //{
                     Artist art = Artist.get(lib.artist_list, alb.artist_id);
                     strAlbum a = new strAlbum();
                     a.id = alb.id;
@@ -547,18 +548,19 @@ namespace migh.application
                     a.artist = art.name;
                     a.cover = string.Format(lib.configuration.AlbumCoverImageFileURLFormat, art.url_name, alb.url_name);
                     list.Add(a);
-                }
+                //}
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<strAlbum>());
         }
         [WebMethod]
         public static string SearchTrack(string name)
         {
+            IEnumerable<Song> l = lib.song_list.Where(a => a.name.ToLower().Contains(name.ToString().ToLower()));
             List<strTrack> list = new List<strTrack>();
-            foreach (Song song in lib.song_list)
+            foreach (Song song in l)
             {
-                if (song.name.ToLower().Contains(name.ToString().ToLower()))
-                {
+                //if (song.name.ToLower().Contains(name.ToString().ToLower()))
+                //{
                     Artist art = Artist.get(lib.artist_list, song.artist_id);
                     Album alb = Album.get(lib.album_list, song.album_id);
                     strTrack a = new strTrack();
@@ -567,7 +569,7 @@ namespace migh.application
                     a.artist = art.name;
                     a.album = alb.name;
                     list.Add(a);
-                }
+                //}
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<strTrack>());
         }

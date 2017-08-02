@@ -14,7 +14,7 @@
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
-            border: 1px solid crimson;
+            border: 1px solid #006ACD;
             border-radius: 4px;
             box-sizing: border-box;
         }
@@ -28,7 +28,7 @@
             margin: 8px 0;
             font-size:10px;
             display: inline-block;
-            border: 1px solid crimson;
+            border: 1px solid #006ACD;
             border-radius: 4px;
             box-sizing: border-box;
         }
@@ -50,7 +50,7 @@
 
         #resultdiv {
             border-bottom-style: solid;
-            border-bottom-color: crimson;
+            border-bottom-color: #006ACD;
             border-bottom-width: 4px;
             max-height: 400px;
             position: fixed;
@@ -126,12 +126,13 @@
         }
 
         progress[value]::-webkit-progress-value {
-            background-color: crimson;
-            height: 4px;
+            background-color: #006ACD;
+            height: 3px;
         }
 
         ::-webkit-progress-bar {
-            background-color: transparent;
+            height:3px;
+            background-color: white;
         }
 
         progress {
@@ -160,7 +161,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: crimson;
+            background-color: #006ACD;
         }
 
         ::-webkit-scrollbar-button {
@@ -172,9 +173,9 @@
         }
 
         #footer {
-            border-top-style: solid;
-            border-top-color: crimson;
-            border-top-width: 2px;
+            /*border-top-style: solid;
+            border-top-color: #006ACD;
+            border-top-width: 2px;*/
             position: fixed;
             left: 0;
             bottom: 0;
@@ -211,6 +212,7 @@
         }
 
         ol li {
+            text-overflow:ellipsis;
             /*border-bottom-color: #181818;
             border-bottom-style: outset;
             border-bottom-width: 2px;
@@ -243,7 +245,7 @@
 <body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server" style="background-color:#282828">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:63px">
+    <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:65px">
 <%--    <div class="panel-heading" style="text-align: center; vertical-align: middle; font-family:Calibri; font-size: larger; max-width: 100%"><asp:Label ID="lblTitle" Text="migh" runat="server" /></div>--%>
         <div id="hide" style="display:none"></div>
         <table id="coverTab" style="text-align:center; width:100%">
@@ -252,7 +254,7 @@
                     <asp:ImageButton ID="btnPreviousSong" runat="server" style="font-family:Calibri;" onclientclick="TriggerPreviousSong(); return false;" ImageUrl="~/images/previousSong.png"/>
                 </td>--%>
                 <td style="text-align: center; width:50%">
-                    <img id="imgSongCover" alt="imgSongCover" style="height:250px; width:250px" src="images/default_album.png" />
+                    <img id="imgSongCover" alt="imgSongCover" style="height:280px; width:280px" src="images/default_album.png" />
                 </td>
                 
                 <%--<td style="text-align:right">
@@ -359,11 +361,11 @@
     <div style="height:90px; background-color: #282828; visibility:hidden"> </div>
         
     
-    <div id="topbar" style="display:none; background-color: black; position:fixed; top:0; left: 0; width:100%; height: 63px; border-bottom-style:solid; border-bottom-color:crimson; border-width:2px">
+    <div id="topbar" style="display:none; border-spacing:0px; background-color: black; position:fixed; top:0; left: 0; width:100%; height: 63px; border-bottom-style:solid; border-bottom-color:#006ACD; border-width:3px">
         <table style="border-spacing:0px; width:100%; height:100%">
-            <tr style="width:100%; vertical-align:middle">
-                <td id="tdImg" style="text-align: left; width:65px; vertical-align:middle">
-                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:61px; display:none; width:61px; vertical-align:middle" src="images/default_album.png" />
+            <tr style="width:100%">
+                <td id="tdImg" style="text-align: left; width:65px">
+                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:62px; display:none; width:62px; vertical-align:middle" src="images/default_album.png" />
                 </td>
                 <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:100%">
                     <label id="lblSongTitle" style="font-family:Verdana; font-size:10px; color:#FBFBFB">Título</label>
@@ -372,7 +374,7 @@
                     <br />
                     <label id="lblSongAlbum" style="font-family:Verdana; font-size:10px; color:#FBFBFB">Álbum</label>
                 </td>
-                <td style="text-align: left; width:65px; vertical-align:middle">
+                <td style="text-align: left; width:65px">
                     <img id="goTop" alt="imgSongCover" style="height:32px; display:none; width:32px" src="images/uparrow.png" />
                 </td>
                 
@@ -417,14 +419,14 @@
         <div>
             <audio id="audio" autoplay="autoplay"></audio>  
         </div>
-        <div style="text-align: center; opacity:0.7; height: 100%; margin-top:8px">
+        <div style="text-align: center; height: 100%; margin-top:8px">
             <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 20px"/>
             <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
             <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left: 20px"/>
-            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-16px">
+            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-20px">
                 <label id="currentTime" style="font-family: verdana; font-size: 8px; color: #FBFBFB">00:00</label>
             </div>
-            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-16px">
+            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-20px">
                 <label id="duration"  style="font-family: verdana; font-size: 8px; color: #FBFBFB">00:00</label>
             </div>
             <div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
@@ -521,8 +523,8 @@
                     img.id = i;
                     img.src = srcs[i];
                     img.style.display = 'inline';
-                    img.width = '90';
-                    img.height = '90'; 
+                    img.width = '80';
+                    img.height = '80'; 
                     img.style.padding = '5px';
                     li.appendChild(a);
                     a.appendChild(label);
@@ -634,7 +636,13 @@
                             navigator.mediaSession.setActionHandler('pause', function () { 
                                 document.getElementById('audio').pause();
                             });
-                            navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
+                            navigator.mediaSession.setActionHandler('previoustrack', function () {
+                                if(RestartSong()) {
+                                    document.getElementById('audio').currentTime = 0;
+                                } else {
+                                    TriggerPreviousSong() 
+                                }
+                            });
                             navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
                         }
                         hideSearchBar();
@@ -771,7 +779,11 @@
                     img.style.styleFloat = 'left';
                     li.setAttribute('id', idlist[i]);
                     li.appendChild(img);
+                    li.style.whiteSpace = 'nowrap';
+                    li.style.width = '90%';
                     var label = document.createElement('label');
+                    label.setAttribute('type', 'imgplay');
+                    label.id = i;
                     label.innerHTML = (i+1) + '. ' + tracklist[i];
                     li.appendChild(label);
                     li.style.overflow = 'hidden';
@@ -817,6 +829,9 @@
                     var index = $(this).css('z-index');
                     if(index === '2147483647') {
                         $(this).remove();
+                    }
+                    if($(this).css('height') === '65px') {
+                        $(this).hide();
                     }
                 });
                 var list = $("div");
@@ -886,27 +901,27 @@
                 //            function cover(str) {
                 //                _cover = str;
                 if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
+                    var data = new MediaMetadata({
                         title: document.getElementById('lblSongTitle').innerHTML,
                         artist: document.getElementById('lblSongArtist').innerHTML,
                         album: document.getElementById('lblSongAlbum').innerHTML,
                         artwork: [{ src: document.getElementById('imgSongCover').src }], 
                     });
-                    //var title_ = document.getElementById('lblSongTitle').innerHTML;
-                    //var album_ = document.getElementById('lblSongAlbum').innerHTML;
-                    //var artist_ = document.getElementById('lblSongArtist').innerHTML;
-                    //var cover_ = document.getElementById('imgSongCover').src;
-                    //navigator.mediaSession.metadata.title = title_;  
-                    //navigator.mediaSession.metadata.artist = artist_;  
-                    //navigator.mediaSession.metadata.album = album_;  
-                    //navigator.mediaSession.metadata.artwork = [{ src: cover_ }];  
+                    navigator.mediaSession.metadata = data;
+
                     navigator.mediaSession.setActionHandler('play', function () { 
                         document.getElementById('audio').play();
                     });
                     navigator.mediaSession.setActionHandler('pause', function () { 
                         document.getElementById('audio').pause();
                     });
-                    navigator.mediaSession.setActionHandler('previoustrack', function () { TriggerPreviousSong() });
+                    navigator.mediaSession.setActionHandler('previoustrack', function () { 
+                        if(RestartSong()) {
+                            document.getElementById('audio').currentTime = 0;
+                        } else {
+                            TriggerPreviousSong() 
+                        } 
+                    });
                     navigator.mediaSession.setActionHandler('nexttrack', function () { TriggerNextSong() });
                 }
                 //            }
@@ -979,7 +994,11 @@
             $('#previous').on('click', function () {
                 var btn = document.getElementById('previous');
                 unfade(btn);
-                TriggerPreviousSong();
+                if(RestartSong()) {
+                    document.getElementById('audio').currentTime = 0;
+                } else {
+                    TriggerPreviousSong() 
+                }
             });
             $('#play').on('click', function () {
                 var btn = document.getElementById('play');
@@ -991,7 +1010,7 @@
                     audio.pause();
                     play.setAttribute('src', 'images/play.png');
                 }
-                updatemetadata();
+                //updatemetadata();
             });
 
             $('#txtSearch').blur(function(){
@@ -1067,13 +1086,15 @@
                                     var label = document.createElement('label');
                                     label.className = 'searchtext';
                                     label.innerText = 'Artistas';
+                                    label.style.fontSize = '12px';
+                                    label.style.color = '#006ACD';
                                     list.appendChild(label);
                                     for (i = 0; i < Artist.length; i++) {
                                         var div = document.createElement('div');
                                         var name = document.createElement('label');
                                         name.className = 'searchtext';
                                         name.innerHTML = Artist[i].name;
-                                        name.style.color = '#97A09B';
+                                        //name.style.color = '#97A09B';
                                         div.className = 'searchitem';
                                         var img = document.createElement('img');
                                         img.id = Artist[i].id;
@@ -1093,6 +1114,8 @@
                                     var label = document.createElement('label');
                                     label.className = 'searchtext';
                                     label.innerText = 'Álbumes';
+                                    label.style.fontSize = '12px';
+                                    label.style.color = '#006ACD';
                                     list.appendChild(label);
                                     for (i = 0; i < Album.length; i++) {
                                         var div = document.createElement('div');
@@ -1122,16 +1145,22 @@
                                     var label = document.createElement('label');
                                     label.className = 'searchtext';
                                     label.innerText = 'Canciones';
+                                    label.style.fontSize = '12px';
+                                    label.style.color = '#006ACD';
                                     list.appendChild(label);
                                     for (i = 0; i < Track.length; i++) {
                                         var div = document.createElement('div');
                                         var name = document.createElement('label');
                                         var nameart = document.createElement('label');
+                                        var namealb = document.createElement('label');
+                                        namealb.className = 'searchtext';
+                                        namealb.style.color = '#97A09B';
+                                        namealb.innerHTML = " - " + Track[i].album;
                                         var br = document.createElement('br');
                                         name.className = 'searchtext';
                                         nameart.className = 'searchtext';
                                         nameart.style.color = '#97A09B';
-                                        name.innerHTML = Track[i].name + " - " + Track[i].album;
+                                        name.innerHTML = Track[i].name;
                                         nameart.innerHTML = Track[i].artist;
                                         div.className = 'searchitem';
                                         var img = document.createElement('img');
@@ -1144,6 +1173,7 @@
                                         img.style.verticalAlign = 'middle';
                                         div.appendChild(img);
                                         div.appendChild(name);
+                                        div.appendChild(namealb);
                                         div.appendChild(br);
                                         div.appendChild(nameart);
                                         list.appendChild(div);
@@ -1169,13 +1199,15 @@
                                     var label = document.createElement('label');
                                     label.className = 'searchtext';
                                     label.innerText = 'Artistas';
+                                    label.style.fontSize = '12px';
+                                    label.style.color = '#006ACD';
                                     list.appendChild(label);
                                     for (i = 0; i < Artist.length; i++) {
                                         var div = document.createElement('div');
                                         var name = document.createElement('label');
                                         name.className = 'searchtext';
                                         name.innerHTML = Artist[i].name;
-                                        name.style.color = '#97A09B';
+                                        //name.style.color = '#97A09B';
                                         div.className = 'searchitem';
                                         var img = document.createElement('img');
                                         img.id = Artist[i].id;
@@ -1196,6 +1228,8 @@
                                     var label = document.createElement('label');
                                     label.className = 'searchtext';
                                     label.innerText = 'Álbumes';
+                                    label.style.fontSize = '12px';
+                                    label.style.color = '#006ACD';
                                     list.appendChild(label);
                                     for (i = 0; i < Album.length; i++) {
                                         var div = document.createElement('div');
@@ -1225,16 +1259,22 @@
                                     var label = document.createElement('label');
                                     label.className = 'searchtext';
                                     label.innerText = 'Canciones';
+                                    label.style.fontSize = '12px';
+                                    label.style.color = '#006ACD';
                                     list.appendChild(label);
                                     for (i = 0; i < Track.length; i++) {
                                         var div = document.createElement('div');
                                         var name = document.createElement('label');
                                         var nameart = document.createElement('label');
+                                        var namealb = document.createElement('label');
+                                        namealb.className = 'searchtext';
+                                        namealb.style.color = '#97A09B';
+                                        namealb.innerHTML = " - " + Track[i].album;
                                         var br = document.createElement('br');
                                         name.className = 'searchtext';
                                         nameart.className = 'searchtext';
                                         nameart.style.color = '#97A09B';
-                                        name.innerHTML = Track[i].name + " - " + Track[i].album;
+                                        name.innerHTML = Track[i].name;
                                         nameart.innerHTML = Track[i].artist;
                                         div.className = 'searchitem';
                                         var img = document.createElement('img');
@@ -1247,6 +1287,7 @@
                                         img.style.verticalAlign = 'middle';
                                         div.appendChild(img);
                                         div.appendChild(name);
+                                        div.appendChild(namealb);
                                         div.appendChild(br);
                                         div.appendChild(nameart);
                                         list.appendChild(div);
@@ -1267,6 +1308,13 @@
                         }
                     }
                 }
+            }
+            function RestartSong() {
+                var audio = document.getElementById('audio');
+                if (audio.currentTime > 2) {
+                    return true;
+                }
+                return false;
             }
     </script>
     </form>
