@@ -126,11 +126,13 @@
         }
 
         progress[value]::-webkit-progress-value {
+            border-radius: 3px;
             background-color: #006ACD;
             height: 3px;
         }
 
         ::-webkit-progress-bar {
+            border-radius: 3px;
             height:3px;
             background-color: white;
         }
@@ -254,7 +256,7 @@
                     <asp:ImageButton ID="btnPreviousSong" runat="server" style="font-family:Calibri;" onclientclick="TriggerPreviousSong(); return false;" ImageUrl="~/images/previousSong.png"/>
                 </td>--%>
                 <td style="text-align: center; width:50%">
-                    <img id="imgSongCover" alt="imgSongCover" style="height:280px; width:280px" src="images/default_album.png" />
+                    <img id="imgSongCover" alt="imgSongCover" style="height:290px; width:290px" src="images/default_album.png" />
                 </td>
                 
                 <%--<td style="text-align:right">
@@ -414,24 +416,29 @@
     </div>
     <div id="footer" style="background-color: black">
         <div style="height: 10px; background-color:black">
+
             <progress id="seekbar" value="0" max="1"></progress>
+            
+        </div>
+        <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-10px">
+            <label id="currentTime" style="font-family: verdana; font-size: 9px; color: #FBFBFB">00:00</label>
+        </div>
+        <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-10px">
+            <label id="duration"  style="font-family: verdana; font-size: 9px; color: #FBFBFB">00:00</label>
         </div>
         <div>
             <audio id="audio" autoplay="autoplay"></audio>  
         </div>
         <div style="text-align: center; height: 100%; margin-top:8px">
-            <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 20px"/>
+            <img id="mute" src="images/unmute.png" style="width: 22px; height: 22px; margin-bottom: 13px; margin-right:30px"/>
+            <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 10px"/>
             <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
-            <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left: 20px"/>
-            <div style="pointer-events: none; float: left; display: inline-block; position: absolute; left: 0; margin-top:-20px">
-                <label id="currentTime" style="font-family: verdana; font-size: 8px; color: #FBFBFB">00:00</label>
-            </div>
-            <div style="pointer-events: none; float: right; display: inline-block; position: absolute; right: 0; margin-top:-20px">
-                <label id="duration"  style="font-family: verdana; font-size: 8px; color: #FBFBFB">00:00</label>
-            </div>
-            <div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
+            <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 13px; margin-left: 10px"/>
+            <img id="btnOpenSearch" src="images/search.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left:30px"/>
+            
+            <%--<div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
                 <img style="height:20px; width:20px; vertical-align:middle" src="images/search.png" />
-            </div>
+            </div>--%>
         </div>
     </div>
         <script>
@@ -523,8 +530,8 @@
                     img.id = i;
                     img.src = srcs[i];
                     img.style.display = 'inline';
-                    img.width = '80';
-                    img.height = '80'; 
+                    img.width = '90';
+                    img.height = '90'; 
                     img.style.padding = '5px';
                     li.appendChild(a);
                     a.appendChild(label);
@@ -565,26 +572,35 @@
                 hideSearchBar();
             };
             function hideSearchBar() {
-                $( "#resultdiv" ).slideUp( "slow", function() {
-                    $('#tdSearch').slideUp();
-                    $('#searchdiv').slideUp();
+                $( "#resultdiv" ).slideUp( "fast", function() {
+                    $('#tdSearch').slideUp("fast");
+                    $('#searchdiv').slideUp("fast");
                 });
             }
             var btnOpenSearch = document.getElementById('btnOpenSearch');
             btnOpenSearch.onclick = function (event) {
                 var display = document.getElementById('searchdiv').style.display;
-                
-                
-                
                 if(display == 'none'){
-                    $('#searchdiv').slideToggle();
-                    $('#tdSearch').slideToggle();
+                    $('#searchdiv').slideToggle("fast");
+                    $('#tdSearch').slideToggle("fast");
                     document.getElementById('txtSearch').focus();
                 }else{
                     document.getElementById('txtSearch').focus();
                     //hideSearchBar();
                 }
                 unfade(btnOpenSearch);
+            };
+            var mute = document.getElementById('mute');
+            mute.onclick = function (event) {
+                var audio = document.getElementById('audio');
+                if(audio.muted){
+                    audio.muted = false;
+                    mute.src = 'images/unmute.png';
+                }else{
+                    audio.muted = true;
+                    mute.src = 'images/mute.png';
+                }
+                unfade(mute);
             };
             var tdTag = document.getElementById('tdTag');
             tdTag.onclick = function (event) {
@@ -769,7 +785,7 @@
                     var img = document.createElement('img');
                     img.id = i;
                     img.setAttribute('type', 'imgplay');
-                    img.src = 'images/playtrack.png';
+                    img.src = 'images/song.png';
                     img.width = 24;
                     img.height = 24;
                     img.style.verticalAlign = 'middle';
@@ -1181,14 +1197,14 @@
                                 }
                             
                                 if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
-                                    $('#resultdiv').slideDown();
+                                    $('#resultdiv').slideDown("fast");
                                     $("#resultdiv").animate({ scrollTop: 0 }, "fast");
                                 } else {
                                     var label = document.createElement('label');
                                     label.innerHTML = 'No hay resultados';
                                     label.className = 'searchtext';
                                     list.appendChild(label);
-                                    $('#resultdiv').slideDown();
+                                    $('#resultdiv').slideDown("fast");
                                 }
                             }
                             function OnSucceeded(response) {
@@ -1295,14 +1311,14 @@
                                 }
                             
                                 if(Artist.length > 0 || Album.length > 0 || Track.length > 0) {
-                                    $('#resultdiv').slideDown();
+                                    $('#resultdiv').slideDown("fast");
                                     $("#resultdiv").animate({ scrollTop: 0 }, "fast");
                                 } else {
                                     var label = document.createElement('label');
                                     label.innerHTML = 'No hay resultados';
                                     label.className = 'searchtext';
                                     list.appendChild(label);
-                                    $('#resultdiv').slideDown();
+                                    $('#resultdiv').slideDown("fast");
                                 }
                             }
                         }
