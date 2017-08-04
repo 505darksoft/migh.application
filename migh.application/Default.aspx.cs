@@ -493,6 +493,10 @@ namespace migh.application
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong()", true);
             }
         }
+        //ALT ^
+        
+        
+        //
         #endregion
         
         #region SEARCH
