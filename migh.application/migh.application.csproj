@@ -87,7 +87,6 @@
     <Content Include="images\default_album.png" />
     <Content Include="images\nextSong.png" />
     <Content Include="images\previousSong.png" />
-    <Content Include="js\base.js" />
     <Content Include="js\color-thief.min.js" />
     <Content Include="js\demo\index.html" />
     <Content Include="js\demo\main.css" />

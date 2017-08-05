@@ -349,13 +349,15 @@ namespace migh.application
                 {
                     List<string> albumimg = new List<string>();
                     List<string> albumname = new List<string>();
-                    
+                    List<int> id = new List<int>();
+
                     foreach(Album album in lib.album_list)
                     {
                         if(album.artist_id == artist.id)
                         {
                             albumimg.Add(string.Format(lib.configuration.AlbumCoverImageFileURLFormat, artist.url_name, album.url_name));
                             albumname.Add(album.name);
+                            id.Add(album.id);
                             artistname = artist.name;
                             ListItem item = new ListItem();
                             item.Text = album.name;
@@ -381,29 +383,30 @@ namespace migh.application
                     var albumnames = Newtonsoft.Json.JsonConvert.SerializeObject(albumname.ToArray<string>());
                     var aname = Newtonsoft.Json.JsonConvert.SerializeObject(artistname);
                     var acovers = Newtonsoft.Json.JsonConvert.SerializeObject(albumimg.ToArray<string>());
-                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + "," + albumnames + "," + aname + ")", true);
+                    var ids = Newtonsoft.Json.JsonConvert.SerializeObject(id.ToArray<int>());
+                    ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "fillCovers(" + acovers + "," + albumnames + "," + aname + "," + ids + ")", true);
                 }
             }
             else
             {
-                listAlbums.Items.Clear();
-                listAlbums.Items.Add("(Álbum)");
-                listSongs.Items.Clear();
-                listSongs.Items.Add("(Canción)");
-                foreach(Album album in lib.album_list)
-                {
-                    ListItem item = new ListItem();
-                    item.Text = album.name;
-                    item.Value = album.id.ToString();
-                    listAlbums.Items.Add(item);
-                }
-                foreach (Song song in lib.song_list)
-                {
-                    ListItem item = new ListItem();
-                    item.Text = song.name;
-                    item.Value = song.id.ToString();
-                    listSongs.Items.Add(item);
-                }
+                //listAlbums.Items.Clear();
+                //listAlbums.Items.Add("(Álbum)");
+                //listSongs.Items.Clear();
+                //listSongs.Items.Add("(Canción)");
+                //foreach(Album album in lib.album_list)
+                //{
+                //    ListItem item = new ListItem();
+                //    item.Text = album.name;
+                //    item.Value = album.id.ToString();
+                //    listAlbums.Items.Add(item);
+                //}
+                //foreach (Song song in lib.song_list)
+                //{
+                //    ListItem item = new ListItem();
+                //    item.Text = song.name;
+                //    item.Value = song.id.ToString();
+                //    listSongs.Items.Add(item);
+                //}
             }
             UpdatePanel1.Update();
         }
@@ -493,10 +496,6 @@ namespace migh.application
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong()", true);
             }
         }
-        //ALT ^
-        
-        
-        //
         #endregion
         
         #region SEARCH
@@ -640,6 +639,13 @@ namespace migh.application
                 }
             }
             return Newtonsoft.Json.JsonConvert.SerializeObject(list.ToArray<Song>());
+        }
+        [WebMethod]
+        public static int getArtistByAlbumId(int album_id)
+        {
+            Album album = lib.album_list.FirstOrDefault(a => a.id == album_id);
+            Artist artist = lib.artist_list.FirstOrDefault(a => a.id == album.artist_id);
+            return artist.id;
         }
         #endregion
     }
