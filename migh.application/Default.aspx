@@ -912,8 +912,8 @@
                 img.id = i;
                 img.setAttribute('type', 'imgplay');
                 img.src = 'images/song.png';
-                img.width = 24;
-                img.height = 24;
+                img.width = 20;
+                img.height = 20;
                 img.style.verticalAlign = 'middle';
                 //img.style.marginBottom = '-8px';
                 li.style.verticalAlign = 'middle';
