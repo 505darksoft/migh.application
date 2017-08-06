@@ -7,6 +7,13 @@
 <html id="xd" style="background-color: #282828" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
+        img {
+          -webkit-user-drag: none;
+          -khtml-user-drag: none;
+          -moz-user-drag: none;
+          -o-user-drag: none;
+          -user-drag: none;
+        }
         #UpdatePanel2 {
             border-style: solid;
             border-color: #181818;
@@ -243,6 +250,15 @@
             line-height: 50px;*/
             /*padding-left: 10px;*/
         }
+        .noselect {
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+             -khtml-user-select: none; /* Konqueror HTML */
+               -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome and Opera */
+        }
         html, body {
           height: 100%;
           overflow-y: hidden;
@@ -269,7 +285,7 @@
     <title>ghost</title>
 </head>
    
-<body id="parentdiv" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
+<body id="parentdiv" class="noselect" style="width: auto; background-color: #121212; background-repeat:repeat; background-attachment:fixed; background-size: 400px 400px">
     <form id="form1" runat="server" style="background-color:#282828">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <div id="maindiv" class="panel panel-primary" style="border-radius:3px; background-color: #282828; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px; margin-top:65px">
@@ -537,6 +553,7 @@
 
         function fillCovers(srcs, albumnames, artistname, idlist) {
             //$('#coverdiv').slideUp("slow");
+            $('img').on('dragstart', function(event) { event.preventDefault(); });
             document.getElementById('albumlist').innerHTML = "<a />";
                 
             var ul = document.getElementById('albumlist');
@@ -1009,7 +1026,15 @@
             }
 
         })(window);
+        window.oncontextmenu = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        };
         $(document).ready(function () {
+            $(document).ready(function(){
+                $("#coverdiv").attachDragger();
+            });
             //var zip = new JSZip()
             //zip.file('hi.txt', 'Hi there')
 
@@ -1061,6 +1086,7 @@
         var aud = document.getElementById("audio");
         aud.addEventListener("ended", TriggerNextSong)
         aud.addEventListener("ended", clearMetadata)
+
         //aud.onended = function () {
         //    TriggerNextSong();
         //}; 
@@ -1129,6 +1155,23 @@
             //    }
 
             //}
+        }
+        $.fn.attachDragger = function(){
+            var attachment = false, lastPosition, position, difference;
+            $( $(this).selector ).on("mousedown mouseup mousemove",function(e){
+                if( e.type == "mousedown" ) attachment = true, lastPosition = [e.clientX, e.clientY];
+                if( e.type == "mouseup" ) attachment = false;
+                if( e.type == "mousemove" && attachment == true ){
+                    position = [e.clientX, e.clientY];
+                    difference = [ (position[0]-lastPosition[0]), (position[1]-lastPosition[1]) ];
+                    $(this).scrollLeft( $(this).scrollLeft() - difference[0] );
+                    $(this).scrollTop( $(this).scrollTop() - difference[1] );
+                    lastPosition = [e.clientX, e.clientY];
+                }
+            });
+            $(window).on("mouseup", function(){
+                attachment = false;
+            });
         }
         function fade(element) {
             var op = 1;  // initial opacity
@@ -1510,6 +1553,7 @@
                 }
             }
         }
+        
         function RestartSong() {
             var audio = document.getElementById('audio');
             if (audio.currentTime > 2) {
