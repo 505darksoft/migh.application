@@ -57,7 +57,7 @@
         #resultdiv {
             border-bottom-style: solid;
             border-bottom-color: #006ACD;
-            border-bottom-width: 4px;
+            border-bottom-width: 3px;
             max-height: 400px;
             position: fixed;
             top: 60px;
@@ -161,7 +161,7 @@
 
         ::-webkit-scrollbar {
             border-radius: 4px;
-            width: 5px;
+            width: 0px;
             height: 5px;
         }
 
@@ -242,6 +242,20 @@
             /*height: 40px;
             line-height: 50px;*/
             /*padding-left: 10px;*/
+        }
+        html, body {
+          height: 100%;
+          overflow-y: hidden;
+        }
+
+        #form1 {
+          height: 100%;
+          overflow: auto;
+        }
+        * { box-sizing: border-box }
+        html, body{
+            margin:0px;
+            padding:0px;
         }
     </style>
 
@@ -375,7 +389,7 @@
     <div style="height:90px; background-color: #282828; visibility:hidden"> </div>
         
     
-    <div id="topbar" style="display:none; border-spacing:0px; background-color: black; position:fixed; top:0; left: 0; width:100%; height: 63px; border-bottom-style:solid; border-bottom-color:#006ACD; border-width:3px">
+    <div id="topbar" style="border-spacing:0px; background-color: black; position:fixed; top:0; left: 0; width:100%; height: 64px; border-bottom-style:solid; border-bottom-color:#006ACD; border-width:3px">
         <table style="border-spacing:0px; width:100%; height:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px">
@@ -726,12 +740,12 @@
             }
             if (type === 'album') {
                 unfade(target);
-                
+                var form = document.getElementById('form1');
                 //document.body.scrollTop = 500;
                 $( "#resultdiv" ).slideUp( "fast", function() {
                     $('#tdSearch').slideUp("fast");
                     $('#searchdiv').slideUp("fast", function(){
-                        $(document.body).animate({ scrollTop: 500 }, 500);
+                        $(form).animate({ scrollTop: 495 }, 500);
                     });
                 });
                 
@@ -760,11 +774,12 @@
             }
             
             if (type === 'artist') {
+                var form = document.getElementById('form1');
                 unfade(target);
                 $( "#resultdiv" ).slideUp( "fast", function() {
                     $('#tdSearch').slideUp("fast");
                     $('#searchdiv').slideUp("fast", function(){
-                        $(document.body).animate({ scrollTop: 295 }, 500);
+                        $(form).animate({ scrollTop: 295 }, 500);
                     });
                 });
                 //hideSearchBar();
@@ -1149,7 +1164,7 @@
             }
         }
         function setTitle(response) {
-            $('#topbar').slideDown();
+            //$('#topbar').slideDown();
             var lbl = document.getElementById('lblSongTitle');
             lbl.innerText = response;
             unfade(lbl);
