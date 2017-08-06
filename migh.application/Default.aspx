@@ -15,9 +15,10 @@
           -user-drag: none;
         }
         #UpdatePanel2 {
+            border-radius: 4px;
             border-style: solid;
             border-color: #181818;
-            border-width: 1px;
+            border-width: 2px;
         }
         input[type=text] {
             outline: none;
