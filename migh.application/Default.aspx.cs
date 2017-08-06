@@ -278,7 +278,18 @@ namespace migh.application
             HttpContext.Current.Session.Timeout = 300;
         }
         #endregion
-
+        [WebMethod]
+        public static void setCookie(string id)
+        {
+            setNowplaying(Convert.ToInt32(id));
+        }
+        public static void setNowplaying(int id)
+        {
+            HttpCookie nowplaying = new HttpCookie("nowplaying");
+            nowplaying.Value = id.ToString();
+            HttpContext.Current.Response.Cookies.Clear();
+            HttpContext.Current.Response.Cookies.Add(nowplaying);
+        }
         #region canción siguiente
         [WebMethod]
         public static string getNextSong()
@@ -298,6 +309,7 @@ namespace migh.application
                         Artist artist = Artist.get(lib.artist_list, nextSong.artist_id);
                         Album album = Album.get(lib.album_list, nextSong.album_id);
                         url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(nextSong.file_name, lib.configuration.GitHubFile_TextToReplace_List));
+                        setNowplaying(nextSong.id);
                         return url;
                     }
                 }
@@ -324,6 +336,7 @@ namespace migh.application
                         Artist artist = Artist.get(lib.artist_list, previousSong.artist_id);
                         Album album = Album.get(lib.album_list, previousSong.album_id);
                         url = string.Format(lib.configuration.AudioFileURLFormat, artist.url_name, album.url_name, Tools.ConvertToGitHubFile(previousSong.file_name, lib.configuration.GitHubFile_TextToReplace_List));
+                        setNowplaying(previousSong.id);
                         return url;
                     }
                 }
@@ -468,10 +481,7 @@ namespace migh.application
                 
             }
         }
-        public void xd(int i)
-        {
-            Session.Add("currentSongIndex", i);
-        }
+
         protected void listSongs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listSongs.SelectedIndex > 0)
@@ -490,9 +500,22 @@ namespace migh.application
                         }
                     }
                 }
+
                 Session.Add("currentList", songs);
                 Session.Add("currentSongIndex", index);
                 Session.Add("selectedSong", Convert.ToInt32(listSongs.SelectedValue));
+                try
+                {
+                    List<Song> songlist = HttpContext.Current.Session["currentList"] as List<Song>;
+                    if (HttpContext.Current.Session["currentSongIndex"] != null)
+                    {
+                        int nowplayingindex = Convert.ToInt32(HttpContext.Current.Session["currentSongIndex"]);
+                        Song currentsong = songs.ElementAt(nowplayingindex);
+                        setNowplaying(currentsong.id);
+                    }
+                }
+                catch { }
+
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "PlaySong()", true);
             }
         }
@@ -645,6 +668,20 @@ namespace migh.application
         {
             Album album = lib.album_list.FirstOrDefault(a => a.id == album_id);
             Artist artist = lib.artist_list.FirstOrDefault(a => a.id == album.artist_id);
+            return artist.id;
+        }
+        [WebMethod]
+        public static int getAlbumBySongId(int song_id)
+        {
+            Song song = lib.song_list.FirstOrDefault(a => a.id == song_id);
+            Album album = lib.album_list.FirstOrDefault(a => a.id == song.album_id);
+            return album.id;
+        }
+        [WebMethod]
+        public static int getArtistBySongId(int song_id)
+        {
+            Song song = lib.song_list.FirstOrDefault(a => a.id == song_id);
+            Artist artist = lib.artist_list.FirstOrDefault(a => a.id == song.artist_id);
             return artist.id;
         }
         #endregion

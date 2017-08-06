@@ -7,6 +7,18 @@
 <html id="xd" style="background-color: #282828" xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <style>
+        #optiondiv {
+            border-radius:4px;
+            height: 40px;
+            right:33.33%;
+            left: 33.33%;
+            color:white;
+            
+            position:fixed;
+            bottom:70px;
+            
+            margin-left: -50%; /* Negative half of width. */
+        }
         img {
           -webkit-user-drag: none;
           -khtml-user-drag: none;
@@ -54,7 +66,7 @@
         }
 
         #searchdiv {
-            height: 59px;
+            height: 61px;
             position: fixed;
             top: 0px;
             width: 100%;
@@ -215,7 +227,7 @@
             padding: 5px;
             white-space: nowrap;
             overflow-x: auto;
-            background-color: #282828;
+            /*background-color: #181818;*/
         }
 
         ul.images li {
@@ -329,9 +341,9 @@
                 </table>
             </ContentTemplate>
         </asp:UpdatePanel>
-        <div id="coverdiv" class="panel panel-primary" style="text-align:center; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
+        <div id="coverdiv" class="panel panel-primary" style="display:none; text-align:center; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
             <table id="tableImg" style="text-align: center; width:100%"">
-                <tr>
+                <tr style="background-color: #181818;border-radius: 10px">
                     <td>
                         <ul id="albumlist" class="images" style="background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 600px">
                             
@@ -457,6 +469,14 @@
         </table>
         </div>
     </div>
+    <div id="optiondiv" class="panel panel-primary" style="display:none; text-align:center; background-color: black; background-size:contain; background-position:center top; width: 100% auto; margin: 0 auto; max-width: 100%; max-height: 100px">
+        <div style="height:100%; vertical-align:middle">
+            <span style="display: inline-block; height: 100%; vertical-align: middle; visibility:hidden"></span>
+            <img alt="gotoalbum" src="images/album.png" style="width: 30px; height: 30px; vertical-align:middle; margin-right:10px"/>
+            
+            <img alt="gotoartist" src="images/artist.png" style="width: 30px; height: 30px; vertical-align:middle; margin-left:10px"/>
+        </div>
+    </div>
     <div id="footer" style="background-color: black">
         <div style="height: 10px; background-color:black">
 
@@ -473,17 +493,19 @@
             <audio id="audio" autoplay="autoplay"></audio>  
         </div>
         <div style="text-align: center; height: 100%; margin-top:8px">
-            <img id="mute" src="images/unmute.png" style="width: 22px; height: 22px; margin-bottom: 13px; margin-right:30px"/>
+            <img id="shuffle" src="images/shuffle.png" style="width: 21px; height: 21px; margin-bottom: 14px; margin-right:20px"/>
+            <img id="mute" src="images/unmute.png" style="width: 21px; height: 21px; margin-bottom: 14px; margin-right:20px"/>
             <img id="previous" src="images/previous.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-right: 10px"/>
             <img id="play" src="images/play.png" style="width: 50px; height: 50px; margin-top:-6px"/>
             <img id="next" src="images/next.png" style="width: 22px; height: 22px; margin-bottom: 13px; margin-left: 10px"/>
-            <img id="btnOpenSearch" src="images/search.png" style="width: 22px; height: 22px; margin-bottom: 14px; margin-left:30px"/>
-            
+            <img id="openmenu" src="images/menu.png" style="width: 21px; height: 21px; margin-bottom: 14px; margin-left:20px"/>
+            <img id="btnOpenSearch" src="images/search.png" style="width: 21px; height: 21px; margin-bottom: 14px; margin-left:20px"/>
             <%--<div id="btnOpenSearch" style="height:35px; width:35px; float: right; display: inline-block; position: absolute; right:1px; margin-top:20px">
                 <img style="height:20px; width:20px; vertical-align:middle" src="images/search.png" />
             </div>--%>
         </div>
     </div>
+    <asp:HiddenField ID="nowplaying" runat="server" ClientIDMode="Static" />
     </form>
     <script>
         function Utils() {
@@ -556,8 +578,8 @@
         function fillCovers(srcs, albumnames, artistname, idlist) {
             //$('#coverdiv').slideUp("slow");
             $('img').on('dragstart', function(event) { event.preventDefault(); });
-            document.getElementById('albumlist').innerHTML = "<a />";
-                
+            document.getElementById('albumlist').innerHTML = "";
+            document.getElementById('coverdiv').style.display = 'inline';
             var ul = document.getElementById('albumlist');
             var width = document.getElementById('maindiv').offsetWidth;
             for (i = 0; i < srcs.length; i++) {
@@ -566,29 +588,36 @@
                 li.style.padding = '5px';
                 li.style.textAlign = '-webkit-center';
                 var img = document.createElement('img');
+                img.style.borderRadius = '0px';
+                img.style.borderWidth = '2px';
+                img.style.borderColor = '#404040';
+                img.style.borderStyle = 'solid';
+                img.style.padding = '1px';
+                //img.style.paddingBottom = '2px';
                 var label = document.createElement('label');
                 var year = document.createElement('label');
                 label.className = 'searchtext';
                 label.style.width = '120px';
                 label.style.fontSize = '8px';
                 label.innerHTML = albumnames[i];
-
+                label.style.paddingBottom = '3px';
                 year.className = 'searchtext dark';
                 year.style.width = '120px';
                 year.style.fontSize = '8px';
                 year.innerHTML = 'yyyy';
+                //year.style.paddingTop = '3px';
 
                 img.alt = albumnames[i] + "@" + artistname + "@" + idlist[i];
-                var a = document.createElement('a');
+                var a = document.createElement('div');
                 a.style.display = 'inline-grid';
 
                 img.setAttribute('type', 'albumitem');
                 img.id = i;
                 img.src = srcs[i];
                 img.style.display = 'inline';
-                img.width = '90';
-                img.height = '90'; 
-                img.style.padding = '5px';
+                img.width = '95';
+                img.height = '95'; 
+                
                 li.appendChild(a);
                 a.appendChild(label);
                 a.appendChild(img);
@@ -677,12 +706,31 @@
                 $('#searchdiv').slideUp("fast");
             });
         }
+        var btnopenmenu = document.getElementById('openmenu');
+        openmenu.onclick = function (event) {
+            unfade(btnopenmenu);
+            $('#optiondiv').slideToggle();
+        }
+
+        function gotoalbum(id) {
+
+        }
+        function gotoartist(id) {
+
+        }
         var btnOpenSearch = document.getElementById('btnOpenSearch');
         btnOpenSearch.onclick = function (event) {
             var display = document.getElementById('searchdiv').style.display;
             if(display == 'none'){
                 $('#searchdiv').slideToggle("fast");
-                $('#tdSearch').slideToggle("fast");
+                $('#tdSearch').slideToggle("fast", function(){
+                    var searchlist = document.getElementById('searchlist');
+                    var nodes = searchlist.parentNode.getElementsByTagName("div");
+                    if(nodes.length > 0) {
+                        $('#resultdiv').slideToggle("fast");
+                    }
+                });
+                
                 document.getElementById('txtSearch').focus();
             }else{
                 document.getElementById('txtSearch').focus();
@@ -709,6 +757,66 @@
             req = fullscrn.requestFullScreen || fullscrn.webkitRequestFullScreen || fullscrn.mozRequestFullScreen;
             req.call(fullscrn);
         };
+        var optiondiv = document.getElementById('optiondiv');
+        optiondiv.onclick = function(event) {
+            var form = document.getElementById('form1');
+            
+            var target = getEventTarget(event);
+            
+            if(target.getAttribute('alt') == 'gotoartist') {
+                
+                unfade(target);
+                var songid = getCookie('nowplaying');
+                PageMethods.getArtistBySongId(parseInt(songid), set1);
+                function set1(response){
+                    var id = response;
+                    var listArtists = document.getElementById('listArtists');
+                    for(i = 0; i < listArtists.length; i++) {
+                        var artist = listArtists[i];
+                        if (parseInt(artist.value) === parseInt(id)) {
+                            document.getElementById('listArtists').selectedIndex = i;
+                            __doPostBack('<%= listArtists.UniqueID %>', '');
+                            break;
+                        }
+                    }
+                    $(form).animate({ scrollTop: 295 }, 500, function(){
+                        $('#optiondiv').slideToggle();
+                    });
+                }
+            }
+            if(target.getAttribute('alt') == 'gotoalbum') {
+                unfade(target);
+                var songid = getCookie('nowplaying');
+                PageMethods.getArtistBySongId(songid, set2);
+                function set2(response){
+                    var artist_id = parseInt(response);
+                    var listArtists = document.getElementById('listArtists');;
+                    for(i = 0; i < listArtists.length; i++) {
+                        artist = listArtists[i];
+                        if (parseInt(artist.value) === parseInt(artist_id)) {
+                            document.getElementById('listArtists').selectedIndex = i;
+                            __doPostBack('<%= listArtists.UniqueID %>', '');
+
+                            ////
+                            localStorage.setItem('searching', true);
+                            PageMethods.getAlbumBySongId(songid, open);
+                            function open(response) {
+                                localStorage.setItem('search_album_id', response);
+                                selectAlbum(response);
+                                
+                            }
+                            break;
+                            
+                            ////
+                        }
+                    }
+                    $(form).animate({ scrollTop: 495 }, 500, function(){
+                        $('#optiondiv').slideToggle();
+                    });
+                }
+            }
+            
+        }
         var ul = document.getElementById('tracklist');
         ul.onclick = function (event) {
             var target = getEventTarget(event);
@@ -723,6 +831,9 @@
             var target = getEventTarget(event);
             var type = target.getAttribute('type');
             if (type === 'track') {
+                document.getElementById('nowplaying').value = target.id;
+                PageMethods.setCookie(target.id);
+                //alert(document.getElementById('nowplaying').value);
                 unfade(target);
                 hideSearchBar();
                 PageMethods.GetTrack(target.id, play);
@@ -1028,11 +1139,11 @@
             }
 
         })(window);
-        window.oncontextmenu = function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
-        };
+        //window.oncontextmenu = function(event) {
+        //    event.preventDefault();
+        //    event.stopPropagation();
+        //    return false;
+        //};
         $(document).ready(function () {
             $(document).ready(function(){
                 $("#coverdiv").attachDragger();
@@ -1078,6 +1189,11 @@
         function TriggerPreviousSong() {
             PageMethods.getPreviousSong(OnSucceeded, OnFailed);
         }
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
         function TriggerNextSong() {
             PageMethods.getNextSong(OnSucceeded, OnFailed);
         }
@@ -1104,7 +1220,6 @@
                 PageMethods.getCurrentSongTitle(setTitle);
                 PageMethods.getCurrentSongArtist(setArtist);
                 PageMethods.getCurrentSongAlbum(setAlbum);
-                audio.src.t
                 audio.src = response;
                 audio.play()
                 .then(_ => updatemetadata());
@@ -1187,15 +1302,31 @@
             }, 50);
         }
         function unfade(element) {
-            var op = 0.1;  // initial opacity
-            var timer = setInterval(function () {
-                if (op >= 1) {
-                    clearInterval(timer);
+            //alert(element.style.opacity);
+            if(element.style.opacity == ''){
+                var op = 0.1;  // initial opacity
+                var timer = setInterval(function () {
+                    if (op >= 1) {
+                        clearInterval(timer);
+                    }
+                    element.style.opacity = op;
+                    element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                    op += op * 0.1;
+                }, 10);
+            } else {
+                if(parseInt(element.style.opacity) >= 1) {
+                    var op = 0.1;  // initial opacity
+                    var timer = setInterval(function () {
+                        if (op >= 1) {
+                            clearInterval(timer);
+                        }
+                        element.style.opacity = op;
+                        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+                        op += op * 0.1;
+                    }, 10);
                 }
-                element.style.opacity = op;
-                element.style.filter = 'alpha(opacity=' + op * 100 + ")";
-                op += op * 0.1;
-            }, 10);
+            }
+            
         }
         function setCover(response) {
 
@@ -1226,7 +1357,7 @@
             unfade(lbl);
         }
         function OnFailed(error) {
-            alert('Error');
+            //alert('Error');
         }
         //newplayer
         var audio = document.getElementById('audio');
