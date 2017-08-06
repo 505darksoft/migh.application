@@ -410,7 +410,7 @@
         <table style="border-spacing:0px; width:100%; height:100%">
             <tr style="width:100%">
                 <td id="tdImg" style="text-align: left; width:65px">
-                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:62px; display:none; width:62px; vertical-align:middle" src="images/default_album.png" />
+                    <img id="imgSongCoverTop" alt="imgSongCover" style="height:60px; display:none; width:60px; vertical-align:middle" src="images/default_album.png" />
                 </td>
                 <td id="tdTag" style="text-align:center; width:100%; vertical-align:middle; height:100%">
                     <label id="lblSongTitle" style="font-family:Verdana; font-size:10px; color:#FBFBFB">Título</label>
@@ -507,10 +507,11 @@
         var Utils = new Utils();
         window.addEventListener('scroll', function () {
             var isElementInView = Utils.isElementInView($('#hide'), false);
-            var off = dw_getScrollOffsets();
+            //var off = dw_getScrollOffsets();
+            var top = document.getElementById('form1').scrollTop;
             //document.getElementById('lblSongTitle').innerHTML = off.y;
             //$("#resultdiv").animate({ scrollTop: 0 }, "fast");
-            if (parseInt(off.y) > 250) {
+            if (parseInt(top) > 220) {
                 document.getElementById('imgSongCoverTop').style.display = 'inline';
                 //document.getElementById('goTop').style.display = 'inline';
                 document.getElementById('tdImg').style.display = 'inline';
@@ -900,14 +901,14 @@
 
                 document.getElementById('parentTrackDiv').style.height = '600px';
                 document.getElementById('tracklist').innerHTML = '';
-                var off = dw_getScrollOffsets();
-                localStorage.setItem("offSet", off.y);
+
+
                 var target = getEventTarget(event);
                 var id = parseInt(target.getAttribute('id'));
 
                 document.getElementById('listAlbums').selectedIndex = id + 1;
                 __doPostBack('<%= listAlbums.UniqueID %>', '');
-                var offSet = localStorage.getItem("offSet");
+
                 document.getElementById('tracklist').style.marginBottom = '80px';
                 if (document.getElementById('tracklist').innerHTML == '') {
                     document.getElementById('tracklist').innerHTML = inner;
