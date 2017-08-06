@@ -1145,6 +1145,13 @@
         //    return false;
         //};
         $(document).ready(function () {
+            if(window.location.hostname == 'ghost.somee.com') {
+                window.oncontextmenu = function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return false;
+                };
+            }
             $(document).ready(function(){
                 $("#coverdiv").attachDragger();
             });
